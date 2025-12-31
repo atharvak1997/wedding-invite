@@ -26,7 +26,6 @@
       perspective: 1000px;
     }
 
-    /* Background using img tag for better control */
     .section-bg {
       position: absolute;
       top: 0; left: 0;
@@ -38,7 +37,6 @@
       transform: scale(1.05);
     }
 
-    /* Optimize image position per section for mobile */
     #section1 .section-bg { object-position: center 60%; }
     #section2 .section-bg { object-position: center 50%; }
     #section3 .section-bg { object-position: center 50%; }
@@ -47,12 +45,70 @@
     .overlay {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(
-        ellipse at center,
-        rgba(0,0,0,0.1) 0%,
-        rgba(0,0,0,0.4) 100%
-      );
+      background: radial-gradient(ellipse at center, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%);
       z-index: 2;
+    }
+
+    /* Floating Lanterns */
+    .lanterns-container {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 3;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .lantern {
+      position: absolute;
+      width: 20px;
+      height: 28px;
+      background: radial-gradient(ellipse at center, #ffdd88 0%, #ff9944 50%, #ff6622 100%);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      box-shadow: 0 0 20px #ff9944, 0 0 40px #ff6622, 0 0 60px rgba(255,150,50,0.5);
+      animation: floatUp linear infinite;
+      opacity: 0;
+    }
+
+    .lantern::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8px;
+      height: 5px;
+      background: #aa4400;
+      border-radius: 0 0 3px 3px;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.8; }
+      90% { opacity: 0.8; }
+      100% { transform: translateY(-100vh) translateX(30px) rotate(10deg); opacity: 0; }
+    }
+
+    /* Sparkle effect */
+    .sparkle-container {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #fff;
+      border-radius: 50%;
+      animation: sparkle 2s ease-in-out infinite;
+      box-shadow: 0 0 6px #fff, 0 0 12px #ffd700;
+    }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: scale(0); }
+      50% { opacity: 1; transform: scale(1); }
     }
 
     .content {
@@ -64,6 +120,18 @@
       max-width: 600px;
       transform: translateZ(100px);
       animation: float 5s ease-in-out infinite;
+    }
+
+    /* Scroll reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     @keyframes float {
@@ -85,6 +153,12 @@
         0 0 80px rgba(255,150,100,0.3);
       margin: 0;
       line-height: 1;
+      animation: glow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 2px 4px rgba(0,0,0,1), 0 4px 8px rgba(0,0,0,0.9), 0 0 60px rgba(255,150,100,0.2); }
+      to { text-shadow: 0 2px 4px rgba(0,0,0,1), 0 4px 8px rgba(0,0,0,0.9), 0 0 100px rgba(255,150,100,0.5); }
     }
 
     .weds {
@@ -92,9 +166,7 @@
       color: #ffd700;
       letter-spacing: 0.5em;
       margin: 15px 0;
-      text-shadow: 
-        0 2px 8px rgba(0,0,0,1),
-        0 0 30px rgba(255,200,100,0.5);
+      text-shadow: 0 2px 8px rgba(0,0,0,1), 0 0 30px rgba(255,200,100,0.5);
     }
 
     .date {
@@ -104,6 +176,54 @@
       letter-spacing: 0.2em;
       margin-top: 20px;
       text-shadow: 0 2px 10px rgba(0,0,0,1);
+    }
+
+    /* Countdown Timer */
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 25px;
+      flex-wrap: wrap;
+    }
+
+    .countdown-item {
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,215,0,0.3);
+      border-radius: 12px;
+      padding: 12px 15px;
+      min-width: 70px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .countdown-item:nth-child(2) { animation-delay: 0.2s; }
+    .countdown-item:nth-child(3) { animation-delay: 0.4s; }
+    .countdown-item:nth-child(4) { animation-delay: 0.6s; }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 4px 20px rgba(0,0,0,0.5), 0 0 0 rgba(255,215,0,0); }
+      50% { box-shadow: 0 4px 20px rgba(0,0,0,0.5), 0 0 20px rgba(255,215,0,0.2); }
+    }
+
+    .countdown-number {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.5rem, 6vw, 2.2rem);
+      font-weight: 700;
+      color: #ffd700;
+      line-height: 1;
+      text-shadow: 0 0 20px rgba(255,215,0,0.5);
+    }
+
+    .countdown-label {
+      font-size: clamp(0.6rem, 2vw, 0.75rem);
+      color: rgba(255,255,255,0.8);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 5px;
     }
 
     .scroll-hint {
@@ -137,7 +257,14 @@
     .ganesh { 
       font-size: clamp(3rem, 10vw, 5rem); 
       filter: drop-shadow(0 4px 20px rgba(0,0,0,0.9)) drop-shadow(0 0 40px rgba(255,200,100,0.5));
+      animation: gentleBounce 3s ease-in-out infinite;
     }
+
+    @keyframes gentleBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
     .sanskrit { 
       font-size: clamp(0.9rem, 3vw, 1.2rem); 
       color: #ffd700; 
@@ -159,26 +286,28 @@
       background: linear-gradient(90deg, transparent, #ffd700, transparent); 
       margin: 20px auto;
       box-shadow: 0 0 20px rgba(255,200,100,0.5);
+      animation: expandWidth 2s ease-in-out infinite alternate;
     }
+
+    @keyframes expandWidth {
+      from { width: 60px; opacity: 0.7; }
+      to { width: 100px; opacity: 1; }
+    }
+
     .invite-title {
       font-family: 'Cinzel', serif;
       font-size: clamp(2rem, 10vw, 4rem);
       color: #fff;
       letter-spacing: 0.1em;
       margin: 20px 0;
-      text-shadow: 
-        0 2px 8px rgba(0,0,0,1),
-        0 8px 25px rgba(0,0,0,0.8);
+      text-shadow: 0 2px 8px rgba(0,0,0,1), 0 8px 25px rgba(0,0,0,0.8);
     }
     .script-name {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(2.2rem, 12vw, 5rem);
       font-style: italic;
       color: #fff;
-      text-shadow: 
-        0 2px 8px rgba(0,0,0,1),
-        0 8px 25px rgba(0,0,0,0.8),
-        0 0 60px rgba(255,180,100,0.25);
+      text-shadow: 0 2px 8px rgba(0,0,0,1), 0 8px 25px rgba(0,0,0,0.8), 0 0 60px rgba(255,180,100,0.25);
       margin: 0;
     }
 
@@ -189,9 +318,7 @@
       color: #fff;
       letter-spacing: 0.12em;
       margin-bottom: 25px;
-      text-shadow: 
-        0 2px 8px rgba(0,0,0,1),
-        0 8px 25px rgba(0,0,0,0.8);
+      text-shadow: 0 2px 8px rgba(0,0,0,1), 0 8px 25px rgba(0,0,0,0.8);
     }
 
     .event-card {
@@ -207,10 +334,13 @@
       align-items: center;
       gap: 15px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-      transition: transform 0.3s, box-shadow 0.3s;
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+      cursor: pointer;
     }
-    .event-card:active {
-      transform: scale(0.98);
+    .event-card:hover, .event-card:active {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 15px 40px rgba(255,200,100,0.2);
+      border-color: rgba(255,215,0,0.6);
     }
 
     .event-info { text-align: left; flex: 1; }
@@ -232,7 +362,12 @@
       border-radius: 12px;
       text-align: center;
       box-shadow: 0 4px 20px rgba(255,180,0,0.4);
+      transition: transform 0.3s;
     }
+    .event-card:hover .event-date {
+      transform: scale(1.1);
+    }
+
     .event-day { 
       font-family: 'Cinzel', serif; 
       font-size: clamp(1.5rem, 5vw, 2rem); 
@@ -254,9 +389,7 @@
       font-style: italic;
       color: #fff;
       margin-bottom: 10px;
-      text-shadow: 
-        0 2px 8px rgba(0,0,0,1),
-        0 8px 25px rgba(0,0,0,0.8);
+      text-shadow: 0 2px 8px rgba(0,0,0,1), 0 8px 25px rgba(0,0,0,0.8);
     }
 
     .btn {
@@ -276,9 +409,26 @@
       box-shadow: 0 8px 30px rgba(255,180,0,0.5);
       transition: transform 0.3s, box-shadow 0.3s;
       -webkit-tap-highlight-color: transparent;
+      position: relative;
+      overflow: hidden;
     }
-    .btn:active {
-      transform: scale(0.95);
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn:hover, .btn:active {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 12px 40px rgba(255,180,0,0.6);
     }
 
     .decorative-border {
@@ -289,6 +439,12 @@
       pointer-events: none;
       z-index: 5;
       box-shadow: inset 0 0 100px rgba(0,0,0,0.3);
+      animation: borderGlow 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes borderGlow {
+      from { border-color: rgba(255,215,0,0.15); box-shadow: inset 0 0 80px rgba(0,0,0,0.3); }
+      to { border-color: rgba(255,215,0,0.35); box-shadow: inset 0 0 100px rgba(0,0,0,0.2), 0 0 30px rgba(255,200,100,0.1); }
     }
 
     footer {
@@ -313,16 +469,23 @@
       margin-top: 20px; 
       font-size: clamp(1rem, 3vw, 1.2rem); 
       color: #ff90a8;
+      cursor: pointer;
+      transition: color 0.3s, transform 0.3s;
+    }
+    .hashtag:hover {
+      color: #ffb0c8;
+      transform: scale(1.05);
     }
 
-    /* Desktop adjustments */
+    /* Desktop */
     @media (min-width: 768px) {
       .content { max-width: 800px; padding: 40px; }
       .section-bg { filter: blur(1.5px) brightness(0.8); }
-      #section1 .section-bg { object-position: center center; }
-      #section2 .section-bg { object-position: center center; }
-      #section3 .section-bg { object-position: center center; }
+      #section1 .section-bg,
+      #section2 .section-bg,
+      #section3 .section-bg,
       #section4 .section-bg { object-position: center center; }
+      .countdown-item { padding: 15px 20px; min-width: 90px; }
     }
 
     /* Landscape */
@@ -332,11 +495,13 @@
       .title { font-size: 2.5rem; }
       .ganesh { font-size: 2.5rem; }
       .scroll-hint { display: none; }
+      .countdown { gap: 8px; margin-top: 15px; }
+      .countdown-item { padding: 8px 12px; min-width: 60px; }
     }
 
     /* Reduced motion */
     @media (prefers-reduced-motion: reduce) {
-      .content, .scroll-hint { animation: none; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
     }
 
     /* iOS safe area */
@@ -352,12 +517,32 @@
 <section class="section" id="section1">
   <img class="section-bg" src="https://i.imgur.com/JV8QhqT.jpeg" alt="Wedding">
   <div class="overlay"></div>
+  <div class="lanterns-container" id="lanterns1"></div>
+  <div class="sparkle-container" id="sparkles1"></div>
   <div class="decorative-border"></div>
   <div class="content">
     <h1 class="title">AADITI</h1>
     <p class="weds">W E D S</p>
     <h1 class="title">ATHARVA</h1>
     <p class="date">25 • FEBRUARY • 2026</p>
+    <div class="countdown" id="countdown">
+      <div class="countdown-item">
+        <div class="countdown-number" id="days">--</div>
+        <div class="countdown-label">Days</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number" id="hours">--</div>
+        <div class="countdown-label">Hours</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number" id="minutes">--</div>
+        <div class="countdown-label">Mins</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number" id="seconds">--</div>
+        <div class="countdown-label">Secs</div>
+      </div>
+    </div>
   </div>
   <div class="scroll-hint" onclick="document.getElementById('section2').scrollIntoView({behavior:'smooth'})">SCROLL</div>
 </section>
@@ -366,16 +551,17 @@
 <section class="section" id="section2">
   <img class="section-bg" src="https://i.imgur.com/Ac5V4zs.jpeg" alt="Mehndi">
   <div class="overlay"></div>
+  <div class="lanterns-container" id="lanterns2"></div>
   <div class="content">
-    <div class="ganesh">🙏</div>
-    <p class="sanskrit">ॐ श्री गणेशाय नमः</p>
-    <p class="subtitle">With the blessings of our beloved families</p>
-    <div class="divider"></div>
-    <h2 class="invite-title">INVITE</h2>
-    <p class="subtitle">You to join us in the wedding celebrations of</p>
-    <h2 class="script-name">Aaditi</h2>
-    <p class="weds" style="margin: 8px 0;">&</p>
-    <h2 class="script-name">Atharva</h2>
+    <div class="ganesh reveal">🙏</div>
+    <p class="sanskrit reveal">ॐ श्री गणेशाय नमः</p>
+    <p class="subtitle reveal">With the blessings of our beloved families</p>
+    <div class="divider reveal"></div>
+    <h2 class="invite-title reveal">INVITE</h2>
+    <p class="subtitle reveal">You to join us in the wedding celebrations of</p>
+    <h2 class="script-name reveal">Aaditi</h2>
+    <p class="weds reveal" style="margin: 8px 0;">&</p>
+    <h2 class="script-name reveal">Atharva</h2>
   </div>
 </section>
 
@@ -383,9 +569,10 @@
 <section class="section" id="section3">
   <img class="section-bg" src="https://i.imgur.com/0khhX5G.jpeg" alt="Sangeet">
   <div class="overlay"></div>
+  <div class="lanterns-container" id="lanterns3"></div>
   <div class="content">
-    <h2 class="section-title">CELEBRATIONS</h2>
-    <div class="event-card">
+    <h2 class="section-title reveal">CELEBRATIONS</h2>
+    <div class="event-card reveal">
       <div class="event-info">
         <h3 class="event-name">Haldi Ceremony</h3>
         <p class="event-details">Avismara, Pune • 11:00 AM</p>
@@ -395,7 +582,7 @@
         <div class="event-month">FEB 2026</div>
       </div>
     </div>
-    <div class="event-card">
+    <div class="event-card reveal">
       <div class="event-info">
         <h3 class="event-name">Sangeet Night</h3>
         <p class="event-details">Avismara, Pune • 7:00 PM</p>
@@ -405,7 +592,7 @@
         <div class="event-month">FEB 2026</div>
       </div>
     </div>
-    <div class="event-card">
+    <div class="event-card reveal">
       <div class="event-info">
         <h3 class="event-name">Wedding Ceremony</h3>
         <p class="event-details">Avismara, Pune • Muhurat</p>
@@ -422,19 +609,96 @@
 <section class="section" id="section4">
   <img class="section-bg" src="https://i.imgur.com/UAUTiYh.jpeg" alt="Ceremony">
   <div class="overlay"></div>
+  <div class="lanterns-container" id="lanterns4"></div>
   <div class="content">
-    <h2 class="section-title">VENUE</h2>
-    <h3 class="venue-name">Avismara</h3>
-    <p class="subtitle">Pune, Maharashtra, India</p>
-    <button class="btn" onclick="window.open('https://maps.google.com/?q=Avismara+Pune','_blank')">GET DIRECTIONS</button>
+    <h2 class="section-title reveal">VENUE</h2>
+    <h3 class="venue-name reveal">Avismara</h3>
+    <p class="subtitle reveal">Pune, Maharashtra, India</p>
+    <button class="btn reveal" onclick="window.open('https://maps.google.com/?q=Avismara+Pune','_blank')">GET DIRECTIONS</button>
   </div>
 </section>
 
 <footer>
   <p class="footer-names">Aaditi & Atharva</p>
   <p class="footer-date">25 FEBRUARY 2026</p>
-  <p class="hashtag">#AaditiWedsAtharva</p>
+  <p class="hashtag" onclick="navigator.share?.({title:'Aaditi & Atharva Wedding', url:window.location.href}).catch(()=>{})">#AaditiWedsAtharva</p>
 </footer>
+
+<script>
+// Countdown Timer
+const weddingDate = new Date('February 25, 2026 00:00:00').getTime();
+
+function updateCountdown() {
+  const now = new Date().getTime();
+  const distance = weddingDate - now;
+
+  if (distance > 0) {
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById('days').textContent = days;
+    document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+    document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+    document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+  } else {
+    document.getElementById('countdown').innerHTML = '<div class="countdown-item" style="min-width:auto;padding:15px 30px;"><div class="countdown-number" style="font-size:1.5rem;">🎉 Today!</div></div>';
+  }
+}
+
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// Floating Lanterns
+function createLanterns() {
+  const containers = document.querySelectorAll('.lanterns-container');
+  containers.forEach(container => {
+    for (let i = 0; i < 6; i++) {
+      const lantern = document.createElement('div');
+      lantern.className = 'lantern';
+      lantern.style.left = Math.random() * 100 + '%';
+      lantern.style.animationDuration = (15 + Math.random() * 15) + 's';
+      lantern.style.animationDelay = (Math.random() * 10) + 's';
+      lantern.style.transform = `scale(${0.5 + Math.random() * 0.5})`;
+      container.appendChild(lantern);
+    }
+  });
+}
+
+createLanterns();
+
+// Sparkles on hero section
+function createSparkles() {
+  const container = document.getElementById('sparkles1');
+  for (let i = 0; i < 20; i++) {
+    const sparkle = document.createElement('div');
+    sparkle.className = 'sparkle';
+    sparkle.style.left = Math.random() * 100 + '%';
+    sparkle.style.top = Math.random() * 100 + '%';
+    sparkle.style.animationDelay = Math.random() * 2 + 's';
+    sparkle.style.animationDuration = (1.5 + Math.random()) + 's';
+    container.appendChild(sparkle);
+  }
+}
+
+createSparkles();
+
+// Scroll Reveal Animation
+const revealElements = document.querySelectorAll('.reveal');
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, index) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => {
+        entry.target.classList.add('active');
+      }, index * 100);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+revealElements.forEach(el => revealObserver.observe(el));
+</script>
 
 </body>
 </html>
