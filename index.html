@@ -2,257 +2,383 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Aaditi & Atharva</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { height: 100%; scroll-behavior: smooth; }
-    body { font-family: 'Cormorant Garamond', serif; background: #1a0a1a; overflow-x: hidden; }
+    html { scroll-behavior: smooth; }
+    body { 
+      font-family: 'Cormorant Garamond', serif; 
+      background: #1a0a1a; 
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
 
+    /* Section container - completely isolated */
     .section {
       position: relative;
+      width: 100%;
       min-height: 100vh;
+      min-height: 100dvh; /* Dynamic viewport height for mobile */
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      isolation: isolate;
+      background: #1a0a1a; /* Solid fallback prevents bleed */
     }
 
-    .parallax-bg {
+    /* Background image - contained within section */
+    .section-bg {
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       background-size: cover;
-      background-position: center;
+      background-position: center center;
       background-repeat: no-repeat;
       z-index: 1;
     }
 
-    /* Section 1: Hero - Romantic couple with lanterns */
-    #bg1 {
-      background: linear-gradient(180deg, #6b3fa0 0%, #9b4dca 15%, #d4588c 30%, #ff8c69 50%, #ffc857 70%, #ff9a5c 85%, #e66b5b 100%);
+    /* Individual backgrounds */
+    #section1 .section-bg {
+      background-color: #2a1535;
       background-image: url('https://i.imgur.com/JV8QhqT.jpeg');
     }
-
-    /* Section 2: Invite - Mehndi ceremony */
-    #bg2 {
-      background: linear-gradient(135deg, #4a1942 0%, #6b2d5c 20%, #8b3a62 35%, #d4588c 50%, #ff7b54 70%, #ffa654 85%, #ffcc70 100%);
+    #section2 .section-bg {
+      background-color: #301525;
       background-image: url('https://i.imgur.com/Ac5V4zs.jpeg');
     }
-
-    /* Section 3: Events - Sangeet dancing */
-    #bg3 {
-      background: linear-gradient(160deg, #2d1b4e 0%, #4a2060 15%, #7b3f8f 30%, #b4548a 45%, #e8785a 60%, #ffa857 75%, #ffd080 90%);
+    #section3 .section-bg {
+      background-color: #251530;
       background-image: url('https://i.imgur.com/0khhX5G.jpeg');
     }
-
-    /* Section 4: Venue - Wedding ceremony */
-    #bg4 {
-      background: linear-gradient(180deg, #5a3d7a 0%, #8b5a9e 20%, #c77dac 35%, #e8956e 50%, #ffb347 65%, #ffd280 80%, #fff0c0 95%);
+    #section4 .section-bg {
+      background-color: #2a1530;
       background-image: url('https://i.imgur.com/UAUTiYh.jpeg');
     }
 
+    /* Dark overlay for text readability */
     .overlay {
       position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at center, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.55) 100%);
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.3) 0%,
+        rgba(0,0,0,0.4) 50%,
+        rgba(0,0,0,0.5) 100%
+      );
       z-index: 2;
     }
 
+    /* Content wrapper */
     .content {
       position: relative;
       z-index: 10;
       text-align: center;
-      padding: 40px 20px;
+      padding: 60px 20px;
       width: 100%;
       max-width: 800px;
     }
 
+    /* Typography */
     .title {
       font-family: 'Cinzel', serif;
-      font-size: clamp(2.5rem, 10vw, 5rem);
+      font-size: clamp(2.2rem, 12vw, 5rem);
       font-weight: 500;
       color: #fff;
-      letter-spacing: 0.15em;
-      text-shadow: 0 4px 30px rgba(0,0,0,0.7), 0 0 60px rgba(255,150,100,0.4);
+      letter-spacing: 0.12em;
+      text-shadow: 0 4px 30px rgba(0,0,0,0.8), 0 2px 10px rgba(0,0,0,0.9);
       margin: 0;
-      animation: fadeIn 1.5s ease-out;
+      line-height: 1.1;
     }
 
     .weds {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1rem, 3vw, 1.5rem);
-      color: rgba(255,230,180,0.95);
-      letter-spacing: 0.5em;
-      margin: 15px 0;
-      text-shadow: 0 2px 20px rgba(0,0,0,0.7);
+      font-size: clamp(0.9rem, 3vw, 1.5rem);
+      color: rgba(255,220,150,0.95);
+      letter-spacing: 0.4em;
+      margin: 12px 0;
+      text-shadow: 0 2px 15px rgba(0,0,0,0.8);
     }
 
     .date {
       font-family: 'Cinzel', serif;
-      font-size: clamp(0.9rem, 2vw, 1.2rem);
+      font-size: clamp(0.8rem, 2.5vw, 1.2rem);
       color: rgba(255,255,255,0.95);
-      letter-spacing: 0.3em;
-      margin-top: 30px;
-      text-shadow: 0 2px 20px rgba(0,0,0,0.7);
+      letter-spacing: 0.25em;
+      margin-top: 25px;
+      text-shadow: 0 2px 15px rgba(0,0,0,0.8);
     }
 
+    /* Scroll indicator */
     .scroll-hint {
       position: absolute;
-      bottom: 30px;
+      bottom: 25px;
       left: 50%;
       transform: translateX(-50%);
       color: rgba(255,255,255,0.8);
-      font-size: 0.75rem;
-      letter-spacing: 0.3em;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
       z-index: 20;
       animation: bounce 2s infinite;
+      cursor: pointer;
     }
     .scroll-hint::after {
       content: '';
       display: block;
       width: 1px;
-      height: 40px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.8) 0%, transparent 100%);
-      margin: 10px auto 0;
+      height: 30px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, transparent 100%);
+      margin: 8px auto 0;
     }
 
     @keyframes bounce {
       0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(10px); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
     }
 
-    .ganesh { font-size: 4rem; margin-bottom: 15px; filter: drop-shadow(0 0 30px rgba(255,200,100,0.6)); }
-    .sanskrit { font-size: 1.1rem; color: rgba(255,230,180,0.95); letter-spacing: 3px; margin-bottom: 25px; text-shadow: 0 2px 15px rgba(0,0,0,0.7); }
-    .subtitle { font-size: 1.2rem; font-style: italic; color: rgba(255,255,255,0.95); margin-bottom: 20px; text-shadow: 0 2px 15px rgba(0,0,0,0.7); }
-    .divider { width: 80px; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,220,150,0.8), transparent); margin: 25px auto; }
+    /* Section 2 styles */
+    .ganesh { 
+      font-size: clamp(2.5rem, 8vw, 4rem); 
+      margin-bottom: 10px; 
+      filter: drop-shadow(0 0 20px rgba(255,200,100,0.5)); 
+    }
+    .sanskrit { 
+      font-size: clamp(0.9rem, 2.5vw, 1.1rem); 
+      color: rgba(255,220,150,0.95); 
+      letter-spacing: 2px; 
+      margin-bottom: 20px; 
+      text-shadow: 0 2px 15px rgba(0,0,0,0.8); 
+    }
+    .subtitle { 
+      font-size: clamp(1rem, 3vw, 1.2rem); 
+      font-style: italic; 
+      color: rgba(255,255,255,0.95); 
+      margin-bottom: 15px; 
+      text-shadow: 0 2px 15px rgba(0,0,0,0.8);
+      padding: 0 10px;
+    }
+    .divider { 
+      width: 60px; 
+      height: 1px; 
+      background: linear-gradient(90deg, transparent, rgba(255,220,150,0.7), transparent); 
+      margin: 20px auto; 
+    }
 
     .invite-title {
       font-family: 'Cinzel', serif;
-      font-size: clamp(2rem, 8vw, 3.5rem);
+      font-size: clamp(1.8rem, 7vw, 3.5rem);
       color: #fff;
-      letter-spacing: 0.15em;
-      margin: 25px 0;
-      text-shadow: 0 4px 30px rgba(0,0,0,0.7);
+      letter-spacing: 0.12em;
+      margin: 20px 0;
+      text-shadow: 0 4px 25px rgba(0,0,0,0.8);
     }
 
     .script-name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2rem, 8vw, 4rem);
+      font-size: clamp(1.8rem, 8vw, 4rem);
       font-style: italic;
       color: #fff;
-      text-shadow: 0 4px 30px rgba(0,0,0,0.7);
+      text-shadow: 0 4px 25px rgba(0,0,0,0.8);
       margin: 0;
     }
 
+    /* Section 3 styles */
     .section-title {
       font-family: 'Cinzel', serif;
-      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-size: clamp(1.5rem, 5vw, 2.8rem);
       color: #fff;
-      letter-spacing: 0.2em;
-      margin-bottom: 40px;
-      text-shadow: 0 4px 30px rgba(0,0,0,0.7);
+      letter-spacing: 0.15em;
+      margin-bottom: 30px;
+      text-shadow: 0 4px 25px rgba(0,0,0,0.8);
     }
 
     .event-card {
-      background: rgba(0,0,0,0.45);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,220,150,0.3);
-      border-radius: 15px;
-      padding: 20px 25px;
-      margin-bottom: 15px;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,220,150,0.25);
+      border-radius: 12px;
+      padding: 15px 20px;
+      margin-bottom: 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
       gap: 15px;
       transition: transform 0.3s, box-shadow 0.3s;
     }
     .event-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 40px rgba(255,200,100,0.25);
-      border-color: rgba(255,220,150,0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(255,200,100,0.2);
     }
 
-    .event-info { text-align: left; }
-    .event-name { font-family: 'Cinzel', serif; font-size: 1.3rem; color: #fff; margin: 0; }
-    .event-details { font-size: 0.95rem; color: rgba(255,255,255,0.8); margin: 5px 0 0 0; }
+    .event-info { text-align: left; flex: 1; }
+    .event-name { 
+      font-family: 'Cinzel', serif; 
+      font-size: clamp(1rem, 3vw, 1.3rem); 
+      color: #fff; 
+      margin: 0; 
+    }
+    .event-details { 
+      font-size: clamp(0.8rem, 2.5vw, 0.95rem); 
+      color: rgba(255,255,255,0.75); 
+      margin: 4px 0 0 0; 
+    }
 
     .event-date {
       background: linear-gradient(135deg, #ffd700 0%, #ff9500 100%);
-      padding: 12px 20px;
-      border-radius: 10px;
+      padding: 10px 16px;
+      border-radius: 8px;
       text-align: center;
-      box-shadow: 0 4px 20px rgba(255,200,0,0.4);
+      box-shadow: 0 4px 15px rgba(255,200,0,0.35);
+      flex-shrink: 0;
     }
-    .event-day { font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 700; color: #2a1030; line-height: 1; }
-    .event-month { font-size: 0.65rem; font-weight: 600; color: #2a1030; letter-spacing: 1px; }
+    .event-day { 
+      font-family: 'Cinzel', serif; 
+      font-size: clamp(1.3rem, 4vw, 1.8rem); 
+      font-weight: 700; 
+      color: #2a1030; 
+      line-height: 1; 
+    }
+    .event-month { 
+      font-size: clamp(0.55rem, 1.5vw, 0.65rem); 
+      font-weight: 600; 
+      color: #2a1030; 
+      letter-spacing: 1px; 
+    }
 
+    /* Section 4 styles */
     .venue-name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      font-size: clamp(1.5rem, 5vw, 2.5rem);
       font-style: italic;
       color: #fff;
-      margin-bottom: 15px;
-      text-shadow: 0 4px 30px rgba(0,0,0,0.7);
+      margin-bottom: 12px;
+      text-shadow: 0 4px 25px rgba(0,0,0,0.8);
     }
 
     .btn {
       display: inline-block;
-      padding: 14px 40px;
+      padding: 12px 35px;
       background: linear-gradient(135deg, #ffd700 0%, #ff9500 100%);
       color: #2a1030;
       text-decoration: none;
       font-family: 'Cinzel', serif;
       font-weight: 600;
-      font-size: 0.85rem;
+      font-size: clamp(0.7rem, 2vw, 0.85rem);
       letter-spacing: 2px;
       border-radius: 50px;
       border: none;
       cursor: pointer;
       margin-top: 20px;
       transition: transform 0.3s, box-shadow 0.3s;
+      -webkit-tap-highlight-color: transparent;
     }
-    .btn:hover {
+    .btn:hover, .btn:active {
       transform: scale(1.05);
-      box-shadow: 0 10px 30px rgba(255,200,0,0.5);
+      box-shadow: 0 8px 25px rgba(255,200,0,0.45);
     }
 
+    /* Footer */
     footer {
       background: linear-gradient(180deg, #2d1b4e 0%, #1a0a1a 50%, #0a0510 100%);
-      padding: 60px 20px;
+      padding: 50px 20px;
       text-align: center;
       color: #fff;
     }
-    .footer-names { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-style: italic; margin: 0 0 10px 0; }
-    .footer-date { font-family: 'Cinzel', serif; font-size: 0.9rem; color: #ffd700; letter-spacing: 0.3em; margin: 0; }
-    .hashtag { margin-top: 20px; font-size: 1.1rem; color: #ff90a8; }
+    .footer-names { 
+      font-family: 'Cormorant Garamond', serif; 
+      font-size: clamp(1.5rem, 5vw, 2rem); 
+      font-style: italic; 
+      margin: 0 0 8px 0; 
+    }
+    .footer-date { 
+      font-family: 'Cinzel', serif; 
+      font-size: clamp(0.7rem, 2vw, 0.9rem); 
+      color: #ffd700; 
+      letter-spacing: 0.25em; 
+      margin: 0; 
+    }
+    .hashtag { 
+      margin-top: 15px; 
+      font-size: clamp(0.9rem, 2.5vw, 1.1rem); 
+      color: #ff90a8; 
+    }
 
+    /* Decorative border */
     .decorative-border {
       position: absolute;
-      top: 20px; left: 20px; right: 20px; bottom: 20px;
-      border: 1px solid rgba(255,220,150,0.25);
-      border-radius: 10px;
+      top: 15px; left: 15px; right: 15px; bottom: 15px;
+      border: 1px solid rgba(255,220,150,0.2);
+      border-radius: 8px;
       pointer-events: none;
       z-index: 5;
     }
 
+    /* Mobile adjustments */
     @media (max-width: 600px) {
-      .event-card { flex-direction: column; text-align: center; }
-      .event-info { text-align: center; }
+      .content {
+        padding: 40px 15px;
+      }
+      .event-card {
+        flex-direction: row;
+        padding: 12px 15px;
+      }
+      .decorative-border {
+        top: 10px; left: 10px; right: 10px; bottom: 10px;
+      }
+      .scroll-hint {
+        bottom: 20px;
+      }
+    }
+
+    /* Landscape mobile */
+    @media (max-height: 500px) {
+      .section {
+        min-height: 100vh;
+        padding: 20px 0;
+      }
+      .content {
+        padding: 20px 15px;
+      }
+      .title {
+        font-size: clamp(1.8rem, 8vw, 3rem);
+      }
+      .ganesh {
+        font-size: 2rem;
+        margin-bottom: 5px;
+      }
+      .scroll-hint {
+        display: none;
+      }
+    }
+
+    /* Tablet */
+    @media (min-width: 601px) and (max-width: 1024px) {
+      .content {
+        padding: 50px 30px;
+        max-width: 700px;
+      }
+    }
+
+    /* Large screens */
+    @media (min-width: 1200px) {
+      .section {
+        min-height: 100vh;
+      }
+      .content {
+        max-width: 900px;
+      }
     }
   </style>
 </head>
 <body>
 
+<!-- Section 1: Hero -->
 <section class="section" id="section1">
-  <div class="parallax-bg" id="bg1"></div>
+  <div class="section-bg"></div>
   <div class="overlay"></div>
   <div class="decorative-border"></div>
   <div class="content">
@@ -261,11 +387,12 @@
     <h1 class="title">ATHARVA</h1>
     <p class="date">25 • FEBRUARY • 2026</p>
   </div>
-  <div class="scroll-hint">SCROLL</div>
+  <div class="scroll-hint" onclick="document.getElementById('section2').scrollIntoView({behavior:'smooth'})">SCROLL</div>
 </section>
 
+<!-- Section 2: Invite -->
 <section class="section" id="section2">
-  <div class="parallax-bg" id="bg2"></div>
+  <div class="section-bg"></div>
   <div class="overlay"></div>
   <div class="content">
     <div class="ganesh">🙏</div>
@@ -275,13 +402,14 @@
     <h2 class="invite-title">INVITE</h2>
     <p class="subtitle">You to join us in the wedding celebrations of</p>
     <h2 class="script-name">Aaditi</h2>
-    <p class="weds" style="margin: 10px 0;">&</p>
+    <p class="weds" style="margin: 8px 0;">&</p>
     <h2 class="script-name">Atharva</h2>
   </div>
 </section>
 
+<!-- Section 3: Events -->
 <section class="section" id="section3">
-  <div class="parallax-bg" id="bg3"></div>
+  <div class="section-bg"></div>
   <div class="overlay"></div>
   <div class="content">
     <h2 class="section-title">CELEBRATIONS</h2>
@@ -318,8 +446,9 @@
   </div>
 </section>
 
+<!-- Section 4: Venue -->
 <section class="section" id="section4">
-  <div class="parallax-bg" id="bg4"></div>
+  <div class="section-bg"></div>
   <div class="overlay"></div>
   <div class="content">
     <h2 class="section-title">VENUE</h2>
@@ -329,17 +458,12 @@
   </div>
 </section>
 
+<!-- Footer -->
 <footer>
   <p class="footer-names">Aaditi & Atharva</p>
   <p class="footer-date">25 FEBRUARY 2026</p>
   <p class="hashtag">#AaditiWedsAtharva</p>
 </footer>
 
-<script>
-// Smooth scroll indicator
-document.querySelector('.scroll-hint')?.addEventListener('click', () => {
-  document.getElementById('section2')?.scrollIntoView({ behavior: 'smooth' });
-});
-</script>
 </body>
 </html>
