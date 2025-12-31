@@ -30,28 +30,28 @@
       transform-style: preserve-3d;
     }
 
-    /* Background image - contained within section */
+    /* Background image - ALWAYS show full image, never crop */
     .section-bg {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background-size: cover;
+      background-size: contain;
       background-position: center center;
       background-repeat: no-repeat;
       z-index: 1;
-      transform: translateZ(-50px) scale(1.05);
-      filter: brightness(0.85);
+      transform: translateZ(-100px) scale(1.1);
+      filter: brightness(0.8) blur(1.5px);
     }
 
-    /* Individual backgrounds */
+    /* Individual backgrounds with matching edge colors */
     #section1 .section-bg {
-      background-color: #2a1535;
+      background-color: #1a0a2e;
       background-image: url('https://i.imgur.com/JV8QhqT.jpeg');
     }
     #section2 .section-bg {
-      background-color: #301525;
+      background-color: #2a1020;
       background-image: url('https://i.imgur.com/Ac5V4zs.jpeg');
     }
     #section3 .section-bg {
@@ -399,6 +399,10 @@
 
     /* Mobile adjustments */
     @media (max-width: 600px) {
+      .section {
+        min-height: 100vh;
+        min-height: 100dvh;
+      }
       .content {
         padding: 40px 15px;
       }
@@ -450,6 +454,14 @@
       }
       .content {
         max-width: 900px;
+      }
+    }
+
+    /* Ensure full image visibility on all devices */
+    @supports (-webkit-touch-callout: none) {
+      /* iOS specific fixes */
+      .section {
+        min-height: -webkit-fill-available;
       }
     }
   </style>
