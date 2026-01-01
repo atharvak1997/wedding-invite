@@ -7,398 +7,428 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    
+    html {
+      scroll-behavior: auto;
+    }
+    
     body { 
       font-family: 'Cormorant Garamond', serif; 
-      background: #1a0a1a; 
+      background: #0a0510;
       overflow-x: hidden;
+      color: #fff;
     }
 
+    /* Smooth scroll container */
+    .scroll-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .scroll-content {
+      position: absolute;
+      width: 100%;
+      will-change: transform;
+    }
+
+    /* Section base */
     .section {
       position: relative;
       width: 100%;
-      height: 100vh;
-      height: 100dvh;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      perspective: 1000px;
     }
 
-    .section-bg {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
-      object-position: center 40%;
-      z-index: 1;
-      filter: blur(2px) brightness(0.75);
-      transform: scale(1.05);
-    }
-
-    #section1 .section-bg { object-position: center 60%; }
-    #section2 .section-bg { object-position: center 50%; }
-    #section3 .section-bg { object-position: center 50%; }
-    #section4 .section-bg { object-position: center 45%; }
-
-    .overlay {
+    /* Parallax Background Layers */
+    .parallax-wrapper {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(ellipse at center, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%);
-      z-index: 2;
-    }
-
-    /* Floating Lanterns */
-    .lanterns-container {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      z-index: 3;
-      pointer-events: none;
       overflow: hidden;
     }
 
+    .bg-layer {
+      position: absolute;
+      top: -20%; left: -10%;
+      width: 120%; height: 140%;
+      will-change: transform;
+    }
+
+    .bg-layer img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* Deep background - moves slowest */
+    .bg-deep {
+      z-index: 1;
+      filter: blur(3px) brightness(0.6);
+    }
+
+    /* Mid layer */
+    .bg-mid {
+      z-index: 2;
+      opacity: 0.9;
+    }
+
+    /* Overlay gradient */
+    .overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: 
+        radial-gradient(ellipse at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 100%),
+        linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.4) 100%);
+      z-index: 5;
+    }
+
+    /* Floating Lantern Layers */
+    .lantern-layer {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      overflow: visible;
+      will-change: transform;
+    }
+
+    .lantern-layer-back { z-index: 3; }
+    .lantern-layer-mid { z-index: 6; }
+    .lantern-layer-front { z-index: 8; }
+
     .lantern {
       position: absolute;
-      width: 40px;
-      height: 50px;
       background-image: url('https://i.imgur.com/2LWI5ZW.png');
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
-      animation: floatUp linear infinite;
-      opacity: 0;
-      filter: drop-shadow(0 0 15px rgba(255,150,50,0.6));
+      will-change: transform, opacity;
+      animation: floatLantern linear infinite, swayLantern ease-in-out infinite;
     }
 
-    @keyframes floatUp {
-      0% { transform: translateY(100vh) translateX(0) rotate(-5deg); opacity: 0; }
-      10% { opacity: 0.9; }
-      90% { opacity: 0.9; }
-      100% { transform: translateY(-100vh) translateX(30px) rotate(5deg); opacity: 0; }
+    /* Back lanterns - small, blurry, slow */
+    .lantern-layer-back .lantern {
+      filter: blur(2px) drop-shadow(0 0 8px rgba(255,150,50,0.3));
+      opacity: 0.5;
     }
 
-    /* Sparkle effect */
-    .sparkle-container {
+    /* Mid lanterns */
+    .lantern-layer-mid .lantern {
+      filter: blur(0.5px) drop-shadow(0 0 15px rgba(255,150,50,0.5));
+      opacity: 0.75;
+    }
+
+    /* Front lanterns - large, crisp, fast */
+    .lantern-layer-front .lantern {
+      filter: drop-shadow(0 0 25px rgba(255,150,50,0.7));
+      opacity: 0.9;
+    }
+
+    @keyframes floatLantern {
+      0% { transform: translateY(110vh) rotate(-8deg); }
+      100% { transform: translateY(-30vh) rotate(8deg); }
+    }
+
+    @keyframes swayLantern {
+      0%, 100% { margin-left: 0; }
+      33% { margin-left: 20px; }
+      66% { margin-left: -20px; }
+    }
+
+    /* Sparkle particles */
+    .sparkle-layer {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      z-index: 4;
       pointer-events: none;
+      z-index: 7;
     }
 
     .sparkle {
       position: absolute;
-      width: 4px;
-      height: 4px;
+      width: 3px;
+      height: 3px;
       background: #fff;
       border-radius: 50%;
-      animation: sparkle 2s ease-in-out infinite;
       box-shadow: 0 0 6px #fff, 0 0 12px #ffd700;
+      animation: twinkle ease-in-out infinite;
     }
 
-    @keyframes sparkle {
+    @keyframes twinkle {
       0%, 100% { opacity: 0; transform: scale(0); }
       50% { opacity: 1; transform: scale(1); }
     }
 
+    /* Content styling */
     .content {
       position: relative;
       z-index: 10;
       text-align: center;
-      padding: 20px;
+      padding: 40px 20px;
       width: 100%;
-      max-width: 600px;
-      transform: translateZ(100px);
-      animation: float 5s ease-in-out infinite;
+      max-width: 700px;
+      will-change: transform, opacity;
     }
 
-    /* Scroll reveal animation */
-    .reveal {
+    /* Scroll-based reveal */
+    .reveal-element {
       opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+      transform: translateY(60px);
+      transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), 
+                  transform 1s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .reveal.active {
+    .reveal-element.visible {
       opacity: 1;
       transform: translateY(0);
     }
 
-    @keyframes float {
-      0%, 100% { transform: translateZ(100px) translateY(0); }
-      50% { transform: translateZ(100px) translateY(-12px); }
-    }
+    /* Staggered delays */
+    .reveal-element:nth-child(1) { transition-delay: 0s; }
+    .reveal-element:nth-child(2) { transition-delay: 0.15s; }
+    .reveal-element:nth-child(3) { transition-delay: 0.3s; }
+    .reveal-element:nth-child(4) { transition-delay: 0.45s; }
+    .reveal-element:nth-child(5) { transition-delay: 0.6s; }
+    .reveal-element:nth-child(6) { transition-delay: 0.75s; }
+    .reveal-element:nth-child(7) { transition-delay: 0.9s; }
+    .reveal-element:nth-child(8) { transition-delay: 1.05s; }
 
     .title {
       font-family: 'Cinzel', serif;
-      font-size: clamp(2.5rem, 14vw, 5.5rem);
+      font-size: clamp(2.8rem, 15vw, 6rem);
       font-weight: 500;
       color: #fff;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       text-shadow: 
         0 2px 4px rgba(0,0,0,1),
-        0 4px 8px rgba(0,0,0,0.9),
-        0 8px 20px rgba(0,0,0,0.8),
-        0 20px 40px rgba(0,0,0,0.6),
-        0 0 80px rgba(255,150,100,0.3);
+        0 4px 8px rgba(0,0,0,0.8),
+        0 10px 30px rgba(0,0,0,0.6),
+        0 0 100px rgba(255,150,100,0.3);
       margin: 0;
       line-height: 1;
-      animation: glow 3s ease-in-out infinite alternate;
-    }
-
-    @keyframes glow {
-      from { text-shadow: 0 2px 4px rgba(0,0,0,1), 0 4px 8px rgba(0,0,0,0.9), 0 0 60px rgba(255,150,100,0.2); }
-      to { text-shadow: 0 2px 4px rgba(0,0,0,1), 0 4px 8px rgba(0,0,0,0.9), 0 0 100px rgba(255,150,100,0.5); }
     }
 
     .weds {
-      font-size: clamp(1rem, 4vw, 1.8rem);
+      font-size: clamp(1.1rem, 4vw, 2rem);
       color: #ffd700;
-      letter-spacing: 0.5em;
-      margin: 15px 0;
-      text-shadow: 0 2px 8px rgba(0,0,0,1), 0 0 30px rgba(255,200,100,0.5);
+      letter-spacing: 0.6em;
+      margin: 20px 0;
+      text-shadow: 0 2px 20px rgba(0,0,0,1), 0 0 40px rgba(255,200,100,0.5);
     }
 
     .date {
       font-family: 'Cinzel', serif;
-      font-size: clamp(0.9rem, 3vw, 1.3rem);
-      color: #fff;
-      letter-spacing: 0.2em;
-      margin-top: 20px;
-      text-shadow: 0 2px 10px rgba(0,0,0,1);
-    }
-
-    /* Countdown Timer */
-    .countdown {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      color: rgba(255,255,255,0.9);
+      letter-spacing: 0.25em;
       margin-top: 30px;
-      flex-wrap: wrap;
+      text-shadow: 0 2px 15px rgba(0,0,0,1);
     }
 
-    .countdown-item {
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,215,0,0.3);
-      border-radius: 12px;
-      padding: 12px 15px;
-      min-width: 70px;
-      text-align: center;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-      animation: pulse 2s ease-in-out infinite;
-    }
-
-    .countdown-item:nth-child(2) { animation-delay: 0.2s; }
-    .countdown-item:nth-child(3) { animation-delay: 0.4s; }
-    .countdown-item:nth-child(4) { animation-delay: 0.6s; }
-
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 4px 20px rgba(0,0,0,0.5), 0 0 0 rgba(255,215,0,0); }
-      50% { box-shadow: 0 4px 20px rgba(0,0,0,0.5), 0 0 20px rgba(255,215,0,0.2); }
-    }
-
-    .countdown-number {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(1.5rem, 6vw, 2.2rem);
-      font-weight: 700;
-      color: #ffd700;
-      line-height: 1;
-      text-shadow: 0 0 20px rgba(255,215,0,0.5);
-    }
-
-    .countdown-label {
-      font-size: clamp(0.6rem, 2vw, 0.75rem);
-      color: rgba(255,255,255,0.8);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-top: 5px;
+    /* Decorative line */
+    .decorative-line {
+      width: 1px;
+      height: 80px;
+      background: linear-gradient(to bottom, transparent, rgba(255,215,0,0.8), transparent);
+      margin: 30px auto;
     }
 
     .scroll-hint {
-      position: absolute;
+      position: fixed;
       bottom: 30px;
       left: 50%;
       transform: translateX(-50%);
-      color: rgba(255,255,255,0.9);
+      color: rgba(255,255,255,0.7);
       font-size: 0.75rem;
-      letter-spacing: 0.2em;
-      z-index: 20;
-      animation: bounce 2s infinite;
-      cursor: pointer;
+      letter-spacing: 0.3em;
+      z-index: 100;
+      animation: fadeInOut 3s ease-in-out infinite;
       text-shadow: 0 2px 10px rgba(0,0,0,1);
     }
+
     .scroll-hint::after {
       content: '';
       display: block;
       width: 1px;
-      height: 35px;
-      background: linear-gradient(to bottom, rgba(255,255,255,0.8), transparent);
-      margin: 10px auto 0;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.6), transparent);
+      margin: 12px auto 0;
+      animation: scrollLine 2s ease-in-out infinite;
     }
 
-    @keyframes bounce {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(8px); }
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
     }
 
-    /* Section 2 */
+    @keyframes scrollLine {
+      0% { transform: scaleY(0); transform-origin: top; }
+      50% { transform: scaleY(1); transform-origin: top; }
+      50.1% { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* Section 2 styles */
     .ganesh { 
-      font-size: clamp(3rem, 10vw, 5rem); 
-      filter: drop-shadow(0 4px 20px rgba(0,0,0,0.9)) drop-shadow(0 0 40px rgba(255,200,100,0.5));
-      animation: gentleBounce 3s ease-in-out infinite;
-    }
-
-    @keyframes gentleBounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
+      font-size: clamp(3.5rem, 12vw, 6rem);
+      filter: drop-shadow(0 4px 30px rgba(0,0,0,0.9)) drop-shadow(0 0 50px rgba(255,200,100,0.5));
+      margin-bottom: 15px;
     }
 
     .sanskrit { 
-      font-size: clamp(0.9rem, 3vw, 1.2rem); 
-      color: #ffd700; 
-      letter-spacing: 2px; 
-      margin: 10px 0 20px;
-      text-shadow: 0 2px 15px rgba(0,0,0,1);
-    }
-    .subtitle { 
-      font-size: clamp(1rem, 3.5vw, 1.3rem); 
-      font-style: italic; 
-      color: rgba(255,255,255,0.95); 
-      margin-bottom: 15px;
-      text-shadow: 0 2px 15px rgba(0,0,0,1);
-      padding: 0 10px;
-    }
-    .divider { 
-      width: 80px; 
-      height: 1px; 
-      background: linear-gradient(90deg, transparent, #ffd700, transparent); 
-      margin: 20px auto;
-      box-shadow: 0 0 20px rgba(255,200,100,0.5);
-      animation: expandWidth 2s ease-in-out infinite alternate;
+      font-size: clamp(1rem, 3vw, 1.3rem);
+      color: #ffd700;
+      letter-spacing: 3px;
+      margin-bottom: 25px;
+      text-shadow: 0 2px 20px rgba(0,0,0,1);
     }
 
-    @keyframes expandWidth {
-      from { width: 60px; opacity: 0.7; }
-      to { width: 100px; opacity: 1; }
+    .subtitle { 
+      font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+      font-style: italic;
+      color: rgba(255,255,255,0.95);
+      margin-bottom: 20px;
+      text-shadow: 0 2px 20px rgba(0,0,0,1);
+      line-height: 1.6;
+    }
+
+    .divider { 
+      width: 100px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #ffd700, transparent);
+      margin: 30px auto;
+      box-shadow: 0 0 30px rgba(255,200,100,0.5);
     }
 
     .invite-title {
       font-family: 'Cinzel', serif;
-      font-size: clamp(2rem, 10vw, 4rem);
-      color: #fff;
-      letter-spacing: 0.1em;
-      margin: 20px 0;
-      text-shadow: 0 2px 8px rgba(0,0,0,1), 0 8px 25px rgba(0,0,0,0.8);
-    }
-    .script-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.2rem, 12vw, 5rem);
-      font-style: italic;
-      color: #fff;
-      text-shadow: 0 2px 8px rgba(0,0,0,1), 0 8px 25px rgba(0,0,0,0.8), 0 0 60px rgba(255,180,100,0.25);
-      margin: 0;
-    }
-
-    /* Section 3 */
-    .section-title {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(1.8rem, 7vw, 3rem);
+      font-size: clamp(2.2rem, 10vw, 4.5rem);
       color: #fff;
       letter-spacing: 0.12em;
-      margin-bottom: 25px;
-      text-shadow: 0 2px 8px rgba(0,0,0,1), 0 8px 25px rgba(0,0,0,0.8);
+      margin: 25px 0;
+      text-shadow: 0 4px 30px rgba(0,0,0,0.8);
+    }
+
+    .script-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 12vw, 5rem);
+      font-style: italic;
+      color: #fff;
+      text-shadow: 0 4px 30px rgba(0,0,0,0.8), 0 0 80px rgba(255,180,100,0.2);
+      margin: 5px 0;
+    }
+
+    /* Section 3 - Events */
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2rem, 8vw, 3.5rem);
+      color: #fff;
+      letter-spacing: 0.15em;
+      margin-bottom: 40px;
+      text-shadow: 0 4px 30px rgba(0,0,0,0.8);
     }
 
     .event-card {
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border: 1px solid rgba(255,215,0,0.3);
-      border-radius: 15px;
-      padding: 18px 20px;
-      margin-bottom: 12px;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,215,0,0.25);
+      border-radius: 16px;
+      padding: 20px 25px;
+      margin-bottom: 15px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 15px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
-      cursor: pointer;
+      gap: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                  box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.3s;
     }
-    .event-card:hover, .event-card:active {
-      transform: translateY(-5px) scale(1.02);
-      box-shadow: 0 15px 40px rgba(255,200,100,0.2);
-      border-color: rgba(255,215,0,0.6);
+
+    .event-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 50px rgba(255,180,100,0.2);
+      border-color: rgba(255,215,0,0.5);
     }
 
     .event-info { text-align: left; flex: 1; }
+    
     .event-name { 
-      font-family: 'Cinzel', serif; 
-      font-size: clamp(1.1rem, 4vw, 1.4rem); 
-      color: #fff; 
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.2rem, 4vw, 1.5rem);
+      color: #fff;
       margin: 0;
     }
+
     .event-details { 
-      font-size: clamp(0.85rem, 3vw, 1rem); 
-      color: rgba(255,255,255,0.8); 
-      margin: 5px 0 0;
+      font-size: clamp(0.9rem, 3vw, 1.05rem);
+      color: rgba(255,255,255,0.75);
+      margin: 6px 0 0;
     }
 
     .event-date {
-      background: linear-gradient(135deg, #ffd700, #ff9500);
-      padding: 12px 18px;
+      background: linear-gradient(135deg, #ffd700 0%, #ff9500 100%);
+      padding: 14px 20px;
       border-radius: 12px;
       text-align: center;
-      box-shadow: 0 4px 20px rgba(255,180,0,0.4);
+      box-shadow: 0 6px 25px rgba(255,180,0,0.4);
+      flex-shrink: 0;
       transition: transform 0.3s;
     }
+
     .event-card:hover .event-date {
-      transform: scale(1.1);
+      transform: scale(1.1) rotate(3deg);
     }
 
     .event-day { 
-      font-family: 'Cinzel', serif; 
-      font-size: clamp(1.5rem, 5vw, 2rem); 
-      font-weight: 700; 
-      color: #1a0a1a; 
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.6rem, 5vw, 2.2rem);
+      font-weight: 700;
+      color: #1a0a1a;
       line-height: 1;
     }
+
     .event-month { 
-      font-size: 0.7rem; 
-      font-weight: 600; 
-      color: #1a0a1a; 
+      font-size: clamp(0.65rem, 2vw, 0.75rem);
+      font-weight: 600;
+      color: #1a0a1a;
       letter-spacing: 1px;
+      margin-top: 3px;
     }
 
-    /* Section 4 */
+    /* Section 4 - Venue */
     .venue-name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2rem, 8vw, 3.5rem);
+      font-size: clamp(2.2rem, 9vw, 4rem);
       font-style: italic;
       color: #fff;
-      margin-bottom: 10px;
-      text-shadow: 0 2px 8px rgba(0,0,0,1), 0 8px 25px rgba(0,0,0,0.8);
+      margin-bottom: 15px;
+      text-shadow: 0 4px 30px rgba(0,0,0,0.8);
     }
 
     .btn {
       display: inline-block;
-      padding: 15px 45px;
-      background: linear-gradient(135deg, #ffd700, #ff9500);
+      padding: 16px 50px;
+      background: linear-gradient(135deg, #ffd700 0%, #ff9500 100%);
       color: #1a0a1a;
       text-decoration: none;
       font-family: 'Cinzel', serif;
       font-weight: 700;
-      font-size: clamp(0.8rem, 2.5vw, 1rem);
+      font-size: clamp(0.85rem, 2.5vw, 1rem);
       letter-spacing: 2px;
       border-radius: 50px;
       border: none;
       cursor: pointer;
-      margin-top: 25px;
-      box-shadow: 0 8px 30px rgba(255,180,0,0.5);
-      transition: transform 0.3s, box-shadow 0.3s;
-      -webkit-tap-highlight-color: transparent;
+      margin-top: 30px;
+      box-shadow: 0 10px 40px rgba(255,180,0,0.5);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                  box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
       overflow: hidden;
     }
@@ -409,287 +439,458 @@
       top: 0; left: -100%;
       width: 100%; height: 100%;
       background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-      transition: left 0.5s;
+      transition: left 0.6s;
+    }
+
+    .btn:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 15px 50px rgba(255,180,0,0.6);
     }
 
     .btn:hover::before {
       left: 100%;
     }
 
-    .btn:hover, .btn:active {
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 12px 40px rgba(255,180,0,0.6);
+    /* Countdown */
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 40px;
+      flex-wrap: wrap;
     }
 
-    .decorative-border {
-      position: absolute;
-      top: 12px; left: 12px; right: 12px; bottom: 12px;
-      border: 1px solid rgba(255,215,0,0.25);
-      border-radius: 12px;
-      pointer-events: none;
-      z-index: 5;
-      box-shadow: inset 0 0 100px rgba(0,0,0,0.3);
-      animation: borderGlow 4s ease-in-out infinite alternate;
-    }
-
-    @keyframes borderGlow {
-      from { border-color: rgba(255,215,0,0.15); box-shadow: inset 0 0 80px rgba(0,0,0,0.3); }
-      to { border-color: rgba(255,215,0,0.35); box-shadow: inset 0 0 100px rgba(0,0,0,0.2), 0 0 30px rgba(255,200,100,0.1); }
-    }
-
-    footer {
-      background: linear-gradient(180deg, #2d1b4e 0%, #0a0510 100%);
-      padding: 50px 20px;
+    .countdown-item {
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255,215,0,0.3);
+      border-radius: 14px;
+      padding: 15px 18px;
+      min-width: 80px;
       text-align: center;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
     }
+
+    .countdown-number {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.8rem, 7vw, 2.5rem);
+      font-weight: 700;
+      color: #ffd700;
+      line-height: 1;
+      text-shadow: 0 0 30px rgba(255,215,0,0.5);
+    }
+
+    .countdown-label {
+      font-size: clamp(0.65rem, 2vw, 0.8rem);
+      color: rgba(255,255,255,0.7);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: 6px;
+    }
+
+    /* Footer */
+    footer {
+      position: relative;
+      background: linear-gradient(180deg, rgba(45,27,78,0.8) 0%, #0a0510 100%);
+      padding: 60px 20px;
+      text-align: center;
+      z-index: 10;
+    }
+
     .footer-names { 
-      font-family: 'Cormorant Garamond', serif; 
-      font-size: clamp(1.8rem, 6vw, 2.5rem); 
-      font-style: italic; 
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 7vw, 3rem);
+      font-style: italic;
       color: #fff;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
+
     .footer-date { 
-      font-family: 'Cinzel', serif; 
-      font-size: clamp(0.8rem, 2.5vw, 1rem); 
-      color: #ffd700; 
-      letter-spacing: 0.2em;
+      font-family: 'Cinzel', serif;
+      font-size: clamp(0.9rem, 3vw, 1.1rem);
+      color: #ffd700;
+      letter-spacing: 0.25em;
     }
+
     .hashtag { 
-      margin-top: 20px; 
-      font-size: clamp(1rem, 3vw, 1.2rem); 
+      margin-top: 25px;
+      font-size: clamp(1.1rem, 3.5vw, 1.3rem);
       color: #ff90a8;
       cursor: pointer;
       transition: color 0.3s, transform 0.3s;
     }
+
     .hashtag:hover {
       color: #ffb0c8;
       transform: scale(1.05);
     }
 
-    /* Desktop */
-    @media (min-width: 768px) {
-      .content { max-width: 800px; padding: 40px; }
-      .section-bg { filter: blur(1.5px) brightness(0.8); }
-      #section1 .section-bg,
-      #section2 .section-bg,
-      #section3 .section-bg,
-      #section4 .section-bg { object-position: center center; }
-      .countdown-item { padding: 15px 20px; min-width: 90px; }
+    /* Decorative border */
+    .decorative-border {
+      position: absolute;
+      top: 15px; left: 15px; right: 15px; bottom: 15px;
+      border: 1px solid rgba(255,215,0,0.15);
+      border-radius: 12px;
+      pointer-events: none;
+      z-index: 9;
     }
 
-    /* Landscape */
-    @media (orientation: landscape) and (max-height: 500px) {
-      .section { min-height: 100vh; }
-      .content { padding: 15px; }
-      .title { font-size: 2.5rem; }
-      .ganesh { font-size: 2.5rem; }
+    /* Progress bar */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #ffd700, #ff9500);
+      z-index: 1000;
+      transform-origin: left;
+      transform: scaleX(0);
+      box-shadow: 0 0 10px rgba(255,200,0,0.5);
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .event-card {
+        padding: 15px 18px;
+      }
+      .countdown-item {
+        padding: 12px 14px;
+        min-width: 70px;
+      }
+    }
+
+    @media (max-height: 500px) and (orientation: landscape) {
+      .section { min-height: auto; padding: 60px 0; }
       .scroll-hint { display: none; }
-      .countdown { gap: 8px; margin-top: 15px; }
-      .countdown-item { padding: 8px 12px; min-width: 60px; }
     }
 
-    /* Reduced motion */
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation: none !important; transition: none !important; }
-    }
-
-    /* iOS safe area */
-    @supports (padding-top: env(safe-area-inset-top)) {
-      .section:first-of-type { padding-top: env(safe-area-inset-top); }
-      footer { padding-bottom: env(safe-area-inset-bottom); }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
     }
   </style>
 </head>
 <body>
 
-<!-- Section 1: Hero -->
-<section class="section" id="section1">
-  <img class="section-bg" src="https://i.imgur.com/JV8QhqT.jpeg" alt="Wedding">
-  <div class="overlay"></div>
-  <div class="lanterns-container" id="lanterns1"></div>
-  <div class="sparkle-container" id="sparkles1"></div>
-  <div class="decorative-border"></div>
-  <div class="content">
-    <h1 class="title">AADITI</h1>
-    <p class="weds">W E D S</p>
-    <h1 class="title">ATHARVA</h1>
-    <p class="date">25 • FEBRUARY • 2026</p>
-  </div>
-  <div class="scroll-hint" onclick="document.getElementById('section2').scrollIntoView({behavior:'smooth'})">SCROLL</div>
-</section>
+<div class="progress-bar" id="progressBar"></div>
 
-<!-- Section 2: Invite -->
-<section class="section" id="section2">
-  <img class="section-bg" src="https://i.imgur.com/Ac5V4zs.jpeg" alt="Mehndi">
-  <div class="overlay"></div>
-  <div class="lanterns-container" id="lanterns2"></div>
-  <div class="content">
-    <div class="ganesh reveal">🙏</div>
-    <p class="sanskrit reveal">ॐ श्री गणेशाय नमः</p>
-    <p class="subtitle reveal">With the blessings of our beloved families</p>
-    <div class="divider reveal"></div>
-    <h2 class="invite-title reveal">INVITE</h2>
-    <p class="subtitle reveal">You to join us in the wedding celebrations of</p>
-    <h2 class="script-name reveal">Aaditi</h2>
-    <p class="weds reveal" style="margin: 8px 0;">&</p>
-    <h2 class="script-name reveal">Atharva</h2>
-  </div>
-</section>
+<div class="scroll-container" id="scrollContainer">
+  <div class="scroll-content" id="scrollContent">
 
-<!-- Section 3: Events -->
-<section class="section" id="section3">
-  <img class="section-bg" src="https://i.imgur.com/0khhX5G.jpeg" alt="Sangeet">
-  <div class="overlay"></div>
-  <div class="lanterns-container" id="lanterns3"></div>
-  <div class="content">
-    <h2 class="section-title reveal">CELEBRATIONS</h2>
-    <div class="event-card reveal">
-      <div class="event-info">
-        <h3 class="event-name">Haldi Ceremony</h3>
-        <p class="event-details">Avismara, Pune • 11:00 AM</p>
+    <!-- Section 1: Hero -->
+    <section class="section" id="section1" data-speed="0.8">
+      <div class="parallax-wrapper">
+        <div class="bg-layer bg-deep" data-parallax="-0.3">
+          <img src="https://i.imgur.com/JV8QhqT.jpeg" alt="">
+        </div>
       </div>
-      <div class="event-date">
-        <div class="event-day">22</div>
-        <div class="event-month">FEB 2026</div>
+      <div class="overlay"></div>
+      <div class="lantern-layer lantern-layer-back" data-parallax="-0.15"></div>
+      <div class="lantern-layer lantern-layer-mid" data-parallax="0.1"></div>
+      <div class="lantern-layer lantern-layer-front" data-parallax="0.25"></div>
+      <div class="sparkle-layer"></div>
+      <div class="decorative-border"></div>
+      <div class="content">
+        <h1 class="title reveal-element">AADITI</h1>
+        <p class="weds reveal-element">W E D S</p>
+        <h1 class="title reveal-element">ATHARVA</h1>
+        <div class="decorative-line reveal-element"></div>
+        <p class="date reveal-element">25 • FEBRUARY • 2026</p>
       </div>
-    </div>
-    <div class="event-card reveal">
-      <div class="event-info">
-        <h3 class="event-name">Sangeet Night</h3>
-        <p class="event-details">Avismara, Pune • 7:00 PM</p>
-      </div>
-      <div class="event-date">
-        <div class="event-day">24</div>
-        <div class="event-month">FEB 2026</div>
-      </div>
-    </div>
-    <div class="event-card reveal">
-      <div class="event-info">
-        <h3 class="event-name">Wedding Ceremony</h3>
-        <p class="event-details">Avismara, Pune • Muhurat</p>
-      </div>
-      <div class="event-date">
-        <div class="event-day">25</div>
-        <div class="event-month">FEB 2026</div>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- Section 4: Venue -->
-<section class="section" id="section4">
-  <img class="section-bg" src="https://i.imgur.com/UAUTiYh.jpeg" alt="Ceremony">
-  <div class="overlay"></div>
-  <div class="lanterns-container" id="lanterns4"></div>
-  <div class="content">
-    <h2 class="section-title reveal">VENUE</h2>
-    <h3 class="venue-name reveal">Avismara</h3>
-    <p class="subtitle reveal">Pune, Maharashtra, India</p>
-    <button class="btn reveal" onclick="window.open('https://maps.google.com/?q=Avismara+Pune','_blank')">GET DIRECTIONS</button>
-    <div class="countdown reveal" id="countdown">
-      <div class="countdown-item">
-        <div class="countdown-number" id="days">--</div>
-        <div class="countdown-label">Days</div>
+    <!-- Section 2: Invite -->
+    <section class="section" id="section2" data-speed="0.9">
+      <div class="parallax-wrapper">
+        <div class="bg-layer bg-deep" data-parallax="-0.25">
+          <img src="https://i.imgur.com/Ac5V4zs.jpeg" alt="">
+        </div>
       </div>
-      <div class="countdown-item">
-        <div class="countdown-number" id="hours">--</div>
-        <div class="countdown-label">Hours</div>
+      <div class="overlay"></div>
+      <div class="lantern-layer lantern-layer-back" data-parallax="-0.1"></div>
+      <div class="lantern-layer lantern-layer-mid" data-parallax="0.15"></div>
+      <div class="lantern-layer lantern-layer-front" data-parallax="0.3"></div>
+      <div class="content">
+        <div class="ganesh reveal-element">🙏</div>
+        <p class="sanskrit reveal-element">ॐ श्री गणेशाय नमः</p>
+        <p class="subtitle reveal-element">With the blessings of our beloved families</p>
+        <div class="divider reveal-element"></div>
+        <h2 class="invite-title reveal-element">INVITE</h2>
+        <p class="subtitle reveal-element">You to join us in the wedding celebrations of</p>
+        <h2 class="script-name reveal-element">Aaditi</h2>
+        <p class="weds reveal-element" style="margin: 10px 0;">&</p>
+        <h2 class="script-name reveal-element">Atharva</h2>
       </div>
-      <div class="countdown-item">
-        <div class="countdown-number" id="minutes">--</div>
-        <div class="countdown-label">Mins</div>
-      </div>
-      <div class="countdown-item">
-        <div class="countdown-number" id="seconds">--</div>
-        <div class="countdown-label">Secs</div>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<footer>
-  <p class="footer-names">Aaditi & Atharva</p>
-  <p class="footer-date">25 FEBRUARY 2026</p>
-  <p class="hashtag" onclick="navigator.share?.({title:'Aaditi & Atharva Wedding', url:window.location.href}).catch(()=>{})">#AaditiWedsAtharva</p>
-</footer>
+    <!-- Section 3: Events -->
+    <section class="section" id="section3" data-speed="0.85">
+      <div class="parallax-wrapper">
+        <div class="bg-layer bg-deep" data-parallax="-0.2">
+          <img src="https://i.imgur.com/0khhX5G.jpeg" alt="">
+        </div>
+      </div>
+      <div class="overlay"></div>
+      <div class="lantern-layer lantern-layer-back" data-parallax="-0.12"></div>
+      <div class="lantern-layer lantern-layer-mid" data-parallax="0.12"></div>
+      <div class="lantern-layer lantern-layer-front" data-parallax="0.28"></div>
+      <div class="content">
+        <h2 class="section-title reveal-element">CELEBRATIONS</h2>
+        <div class="event-card reveal-element">
+          <div class="event-info">
+            <h3 class="event-name">Haldi Ceremony</h3>
+            <p class="event-details">Avismara, Pune • 11:00 AM</p>
+          </div>
+          <div class="event-date">
+            <div class="event-day">22</div>
+            <div class="event-month">FEB 2026</div>
+          </div>
+        </div>
+        <div class="event-card reveal-element">
+          <div class="event-info">
+            <h3 class="event-name">Sangeet Night</h3>
+            <p class="event-details">Avismara, Pune • 7:00 PM</p>
+          </div>
+          <div class="event-date">
+            <div class="event-day">24</div>
+            <div class="event-month">FEB 2026</div>
+          </div>
+        </div>
+        <div class="event-card reveal-element">
+          <div class="event-info">
+            <h3 class="event-name">Wedding Ceremony</h3>
+            <p class="event-details">Avismara, Pune • Muhurat</p>
+          </div>
+          <div class="event-date">
+            <div class="event-day">25</div>
+            <div class="event-month">FEB 2026</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Venue -->
+    <section class="section" id="section4" data-speed="0.9">
+      <div class="parallax-wrapper">
+        <div class="bg-layer bg-deep" data-parallax="-0.25">
+          <img src="https://i.imgur.com/UAUTiYh.jpeg" alt="">
+        </div>
+      </div>
+      <div class="overlay"></div>
+      <div class="lantern-layer lantern-layer-back" data-parallax="-0.1"></div>
+      <div class="lantern-layer lantern-layer-mid" data-parallax="0.18"></div>
+      <div class="lantern-layer lantern-layer-front" data-parallax="0.35"></div>
+      <div class="content">
+        <h2 class="section-title reveal-element">VENUE</h2>
+        <h3 class="venue-name reveal-element">Avismara</h3>
+        <p class="subtitle reveal-element">Pune, Maharashtra, India</p>
+        <button class="btn reveal-element" onclick="window.open('https://maps.google.com/?q=Avismara+Pune','_blank')">GET DIRECTIONS</button>
+        <div class="countdown reveal-element" id="countdown">
+          <div class="countdown-item">
+            <div class="countdown-number" id="days">--</div>
+            <div class="countdown-label">Days</div>
+          </div>
+          <div class="countdown-item">
+            <div class="countdown-number" id="hours">--</div>
+            <div class="countdown-label">Hours</div>
+          </div>
+          <div class="countdown-item">
+            <div class="countdown-number" id="minutes">--</div>
+            <div class="countdown-label">Mins</div>
+          </div>
+          <div class="countdown-item">
+            <div class="countdown-number" id="seconds">--</div>
+            <div class="countdown-label">Secs</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p class="footer-names">Aaditi & Atharva</p>
+      <p class="footer-date">25 FEBRUARY 2026</p>
+      <p class="hashtag" onclick="navigator.share?.({title:'Aaditi & Atharva Wedding', url:window.location.href}).catch(()=>{})">#AaditiWedsAtharva</p>
+    </footer>
+
+  </div>
+</div>
+
+<div class="scroll-hint" id="scrollHint">SCROLL</div>
 
 <script>
-// Countdown Timer
-const weddingDate = new Date('February 25, 2026 00:00:00').getTime();
+// Smooth scroll implementation (like 45R website)
+class SmoothScroll {
+  constructor() {
+    this.container = document.getElementById('scrollContainer');
+    this.content = document.getElementById('scrollContent');
+    this.scrollHint = document.getElementById('scrollHint');
+    this.progressBar = document.getElementById('progressBar');
+    
+    this.current = 0;
+    this.target = 0;
+    this.ease = 0.08;
+    this.maxScroll = 0;
+    
+    this.init();
+  }
+  
+  init() {
+    document.body.style.height = this.content.offsetHeight + 'px';
+    this.maxScroll = this.content.offsetHeight - window.innerHeight;
+    
+    window.addEventListener('resize', () => {
+      document.body.style.height = this.content.offsetHeight + 'px';
+      this.maxScroll = this.content.offsetHeight - window.innerHeight;
+    });
+    
+    this.animate();
+  }
+  
+  animate() {
+    this.target = window.scrollY;
+    this.current += (this.target - this.current) * this.ease;
+    
+    // Apply smooth scroll
+    this.content.style.transform = `translateY(${-this.current}px)`;
+    
+    // Update progress bar
+    const progress = this.current / this.maxScroll;
+    this.progressBar.style.transform = `scaleX(${Math.min(progress, 1)})`;
+    
+    // Hide scroll hint after scrolling
+    if (this.current > 100) {
+      this.scrollHint.style.opacity = '0';
+    } else {
+      this.scrollHint.style.opacity = '1';
+    }
+    
+    // Parallax effects
+    this.updateParallax();
+    
+    // Reveal elements
+    this.updateReveal();
+    
+    requestAnimationFrame(() => this.animate());
+  }
+  
+  updateParallax() {
+    const sections = document.querySelectorAll('.section');
+    
+    sections.forEach(section => {
+      const rect = section.getBoundingClientRect();
+      const scrollProgress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+      
+      if (scrollProgress > -0.5 && scrollProgress < 1.5) {
+        // Background parallax
+        const bgLayers = section.querySelectorAll('[data-parallax]');
+        bgLayers.forEach(layer => {
+          const speed = parseFloat(layer.dataset.parallax);
+          const yOffset = (scrollProgress - 0.5) * 300 * speed;
+          layer.style.transform = `translateY(${yOffset}px)`;
+        });
+        
+        // Content subtle parallax
+        const content = section.querySelector('.content');
+        if (content) {
+          const contentOffset = (scrollProgress - 0.5) * 50;
+          const opacity = 1 - Math.abs(scrollProgress - 0.5) * 0.5;
+          content.style.opacity = Math.max(0.3, opacity);
+        }
+      }
+    });
+  }
+  
+  updateReveal() {
+    const elements = document.querySelectorAll('.reveal-element');
+    
+    elements.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      const isVisible = rect.top < window.innerHeight * 0.85 && rect.bottom > 0;
+      
+      if (isVisible) {
+        el.classList.add('visible');
+      }
+    });
+  }
+}
 
+// Countdown Timer
 function updateCountdown() {
+  const weddingDate = new Date('February 25, 2026 00:00:00').getTime();
   const now = new Date().getTime();
   const distance = weddingDate - now;
 
   if (distance > 0) {
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    document.getElementById('days').textContent = days;
-    document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-    document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-    document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-  } else {
-    document.getElementById('countdown').innerHTML = '<div class="countdown-item" style="min-width:auto;padding:15px 30px;"><div class="countdown-number" style="font-size:1.5rem;">🎉 Today!</div></div>';
+    document.getElementById('days').textContent = Math.floor(distance / (1000 * 60 * 60 * 24));
+    document.getElementById('hours').textContent = String(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+    document.getElementById('minutes').textContent = String(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+    document.getElementById('seconds').textContent = String(Math.floor((distance % (1000 * 60)) / 1000)).padStart(2, '0');
   }
 }
 
-updateCountdown();
 setInterval(updateCountdown, 1000);
+updateCountdown();
 
-// Floating Lanterns
+// Create Lanterns (3 layers for depth)
 function createLanterns() {
-  const containers = document.querySelectorAll('.lanterns-container');
-  containers.forEach(container => {
-    for (let i = 0; i < 8; i++) {
-      const lantern = document.createElement('div');
-      lantern.className = 'lantern';
-      lantern.style.left = Math.random() * 100 + '%';
-      lantern.style.animationDuration = (18 + Math.random() * 12) + 's';
-      lantern.style.animationDelay = (Math.random() * 15) + 's';
-      const scale = 0.6 + Math.random() * 0.8;
-      lantern.style.width = (40 * scale) + 'px';
-      lantern.style.height = (50 * scale) + 'px';
-      container.appendChild(lantern);
-    }
+  const layers = [
+    { selector: '.lantern-layer-back', count: 6, sizeRange: [15, 25], duration: [25, 40] },
+    { selector: '.lantern-layer-mid', count: 8, sizeRange: [25, 40], duration: [20, 32] },
+    { selector: '.lantern-layer-front', count: 5, sizeRange: [40, 60], duration: [15, 25] }
+  ];
+  
+  document.querySelectorAll('.section').forEach(section => {
+    layers.forEach(layer => {
+      const container = section.querySelector(layer.selector);
+      if (!container) return;
+      
+      for (let i = 0; i < layer.count; i++) {
+        const lantern = document.createElement('div');
+        lantern.className = 'lantern';
+        
+        const size = layer.sizeRange[0] + Math.random() * (layer.sizeRange[1] - layer.sizeRange[0]);
+        const floatDuration = layer.duration[0] + Math.random() * (layer.duration[1] - layer.duration[0]);
+        const swayDuration = 3 + Math.random() * 4;
+        
+        lantern.style.width = size + 'px';
+        lantern.style.height = size * 1.3 + 'px';
+        lantern.style.left = Math.random() * 100 + '%';
+        lantern.style.animationDuration = `${floatDuration}s, ${swayDuration}s`;
+        lantern.style.animationDelay = `${Math.random() * floatDuration}s, ${Math.random() * swayDuration}s`;
+        
+        container.appendChild(lantern);
+      }
+    });
   });
 }
 
-createLanterns();
-
-// Sparkles on hero section
+// Create Sparkles
 function createSparkles() {
-  const container = document.getElementById('sparkles1');
-  for (let i = 0; i < 20; i++) {
-    const sparkle = document.createElement('div');
-    sparkle.className = 'sparkle';
-    sparkle.style.left = Math.random() * 100 + '%';
-    sparkle.style.top = Math.random() * 100 + '%';
-    sparkle.style.animationDelay = Math.random() * 2 + 's';
-    sparkle.style.animationDuration = (1.5 + Math.random()) + 's';
-    container.appendChild(sparkle);
-  }
-}
-
-createSparkles();
-
-// Scroll Reveal Animation
-const revealElements = document.querySelectorAll('.reveal');
-
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry, index) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => {
-        entry.target.classList.add('active');
-      }, index * 100);
+  document.querySelectorAll('.sparkle-layer').forEach(container => {
+    for (let i = 0; i < 30; i++) {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.left = Math.random() * 100 + '%';
+      sparkle.style.top = Math.random() * 100 + '%';
+      sparkle.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+      sparkle.style.animationDelay = Math.random() * 3 + 's';
+      const size = 2 + Math.random() * 4;
+      sparkle.style.width = size + 'px';
+      sparkle.style.height = size + 'px';
+      container.appendChild(sparkle);
     }
   });
-}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+}
 
-revealElements.forEach(el => revealObserver.observe(el));
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+  createLanterns();
+  createSparkles();
+  new SmoothScroll();
+});
 </script>
 
 </body>
