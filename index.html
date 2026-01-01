@@ -2,569 +2,547 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Aaditi & Atharva</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0510">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Aaditi & Atharva - Wedding</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     
-    html {
-      scroll-behavior: auto;
+    html { 
+      scroll-behavior: smooth;
+      overflow-x: hidden;
     }
     
     body { 
       font-family: 'Cormorant Garamond', serif; 
       background: #0a0510;
-      overflow-x: hidden;
       color: #fff;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
     }
 
-    /* Smooth scroll container */
-    .scroll-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    .scroll-content {
-      position: absolute;
-      width: 100%;
-      will-change: transform;
-    }
-
-    /* Section base */
+    /* Section */
     .section {
       position: relative;
       width: 100%;
       min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      padding: 60px 0;
+      padding-top: calc(60px + env(safe-area-inset-top));
+      padding-bottom: calc(60px + env(safe-area-inset-bottom));
     }
 
-    /* Parallax Background Layers */
-    .parallax-wrapper {
+    /* Background */
+    .section-bg {
       position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      overflow: hidden;
-    }
-
-    .bg-layer {
-      position: absolute;
-      top: -20%; left: -10%;
-      width: 120%; height: 140%;
-      will-change: transform;
-    }
-
-    .bg-layer img {
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       object-fit: cover;
-      object-position: center;
-    }
-
-    /* Deep background - moves slowest */
-    .bg-deep {
+      object-position: center 55%;
       z-index: 1;
-      filter: blur(3px) brightness(0.6);
+      filter: blur(1.5px) brightness(0.7);
+      transform: scale(1.1);
+      transition: transform 0.8s ease-out;
     }
 
-    /* Mid layer */
-    .bg-mid {
-      z-index: 2;
-      opacity: 0.9;
-    }
-
-    /* Overlay gradient */
     .overlay {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: 
-        radial-gradient(ellipse at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 100%),
-        linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.4) 100%);
-      z-index: 5;
+      background: radial-gradient(ellipse at center, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 100%);
+      z-index: 2;
     }
 
-    /* Floating Lantern Layers */
-    .lantern-layer {
+    /* Lanterns */
+    .lantern-container {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
       pointer-events: none;
-      overflow: visible;
-      will-change: transform;
+      z-index: 3;
+      overflow: hidden;
     }
-
-    .lantern-layer-back { z-index: 3; }
-    .lantern-layer-mid { z-index: 6; }
-    .lantern-layer-front { z-index: 8; }
 
     .lantern {
       position: absolute;
       background-image: url('https://i.imgur.com/2LWI5ZW.png');
       background-size: contain;
       background-repeat: no-repeat;
-      background-position: center;
-      will-change: transform, opacity;
-      animation: floatLantern linear infinite, swayLantern ease-in-out infinite;
+      animation: floatUp linear infinite, sway ease-in-out infinite;
     }
 
-    /* Back lanterns - small, blurry, slow */
-    .lantern-layer-back .lantern {
-      filter: blur(2px) drop-shadow(0 0 8px rgba(255,150,50,0.3));
-      opacity: 0.5;
+    @keyframes floatUp {
+      0% { transform: translateY(100vh); opacity: 0; }
+      5% { opacity: 0.8; }
+      95% { opacity: 0.8; }
+      100% { transform: translateY(-15vh); opacity: 0; }
     }
 
-    /* Mid lanterns */
-    .lantern-layer-mid .lantern {
-      filter: blur(0.5px) drop-shadow(0 0 15px rgba(255,150,50,0.5));
-      opacity: 0.75;
-    }
-
-    /* Front lanterns - large, crisp, fast */
-    .lantern-layer-front .lantern {
-      filter: drop-shadow(0 0 25px rgba(255,150,50,0.7));
-      opacity: 0.9;
-    }
-
-    @keyframes floatLantern {
-      0% { transform: translateY(110vh) rotate(-8deg); }
-      100% { transform: translateY(-30vh) rotate(8deg); }
-    }
-
-    @keyframes swayLantern {
+    @keyframes sway {
       0%, 100% { margin-left: 0; }
-      33% { margin-left: 20px; }
-      66% { margin-left: -20px; }
+      50% { margin-left: 15px; }
     }
 
-    /* Sparkle particles */
-    .sparkle-layer {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      pointer-events: none;
-      z-index: 7;
-    }
-
-    .sparkle {
-      position: absolute;
-      width: 3px;
-      height: 3px;
-      background: #fff;
-      border-radius: 50%;
-      box-shadow: 0 0 6px #fff, 0 0 12px #ffd700;
-      animation: twinkle ease-in-out infinite;
-    }
-
-    @keyframes twinkle {
-      0%, 100% { opacity: 0; transform: scale(0); }
-      50% { opacity: 1; transform: scale(1); }
-    }
-
-    /* Content styling */
+    /* Content */
     .content {
       position: relative;
       z-index: 10;
       text-align: center;
-      padding: 40px 20px;
+      padding: 30px 20px;
       width: 100%;
-      max-width: 700px;
-      will-change: transform, opacity;
+      max-width: 500px;
     }
 
-    /* Scroll-based reveal */
-    .reveal-element {
+    /* Reveal animations - direction aware */
+    .reveal {
       opacity: 0;
-      transform: translateY(60px);
-      transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), 
-                  transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(50px) scale(0.95);
+      transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .reveal-element.visible {
+    .reveal.visible {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateY(0) scale(1);
     }
 
-    /* Staggered delays */
-    .reveal-element:nth-child(1) { transition-delay: 0s; }
-    .reveal-element:nth-child(2) { transition-delay: 0.15s; }
-    .reveal-element:nth-child(3) { transition-delay: 0.3s; }
-    .reveal-element:nth-child(4) { transition-delay: 0.45s; }
-    .reveal-element:nth-child(5) { transition-delay: 0.6s; }
-    .reveal-element:nth-child(6) { transition-delay: 0.75s; }
-    .reveal-element:nth-child(7) { transition-delay: 0.9s; }
-    .reveal-element:nth-child(8) { transition-delay: 1.05s; }
+    /* Retract when scrolling up */
+    .reveal.retract {
+      opacity: 0;
+      transform: translateY(-30px) scale(0.98);
+    }
 
+    /* Stagger delays */
+    .reveal:nth-child(1) { transition-delay: 0s; }
+    .reveal:nth-child(2) { transition-delay: 0.08s; }
+    .reveal:nth-child(3) { transition-delay: 0.16s; }
+    .reveal:nth-child(4) { transition-delay: 0.24s; }
+    .reveal:nth-child(5) { transition-delay: 0.32s; }
+    .reveal:nth-child(6) { transition-delay: 0.4s; }
+    .reveal:nth-child(7) { transition-delay: 0.48s; }
+    .reveal:nth-child(8) { transition-delay: 0.56s; }
+    .reveal:nth-child(9) { transition-delay: 0.64s; }
+
+    /* Typography - Mobile optimized */
     .title {
       font-family: 'Cinzel', serif;
-      font-size: clamp(2.8rem, 15vw, 6rem);
+      font-size: clamp(2.8rem, 16vw, 5rem);
       font-weight: 500;
       color: #fff;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.06em;
       text-shadow: 
         0 2px 4px rgba(0,0,0,1),
-        0 4px 8px rgba(0,0,0,0.8),
-        0 10px 30px rgba(0,0,0,0.6),
-        0 0 100px rgba(255,150,100,0.3);
+        0 6px 20px rgba(0,0,0,0.8),
+        0 0 60px rgba(255,150,100,0.25);
       margin: 0;
-      line-height: 1;
+      line-height: 1.1;
     }
 
     .weds {
-      font-size: clamp(1.1rem, 4vw, 2rem);
+      font-size: clamp(1rem, 5vw, 1.6rem);
       color: #ffd700;
-      letter-spacing: 0.6em;
-      margin: 20px 0;
-      text-shadow: 0 2px 20px rgba(0,0,0,1), 0 0 40px rgba(255,200,100,0.5);
+      letter-spacing: 0.5em;
+      margin: 12px 0;
+      text-shadow: 0 2px 15px rgba(0,0,0,1);
     }
 
     .date {
       font-family: 'Cinzel', serif;
-      font-size: clamp(1rem, 3vw, 1.4rem);
+      font-size: clamp(0.85rem, 3.5vw, 1.2rem);
       color: rgba(255,255,255,0.9);
-      letter-spacing: 0.25em;
-      margin-top: 30px;
-      text-shadow: 0 2px 15px rgba(0,0,0,1);
-    }
-
-    /* Decorative line */
-    .decorative-line {
-      width: 1px;
-      height: 80px;
-      background: linear-gradient(to bottom, transparent, rgba(255,215,0,0.8), transparent);
-      margin: 30px auto;
-    }
-
-    .scroll-hint {
-      position: fixed;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: rgba(255,255,255,0.7);
-      font-size: 0.75rem;
-      letter-spacing: 0.3em;
-      z-index: 100;
-      animation: fadeInOut 3s ease-in-out infinite;
+      letter-spacing: 0.2em;
+      margin-top: 20px;
       text-shadow: 0 2px 10px rgba(0,0,0,1);
     }
 
-    .scroll-hint::after {
-      content: '';
-      display: block;
+    .decorative-line {
       width: 1px;
-      height: 40px;
-      background: linear-gradient(to bottom, rgba(255,255,255,0.6), transparent);
-      margin: 12px auto 0;
-      animation: scrollLine 2s ease-in-out infinite;
+      height: 50px;
+      background: linear-gradient(to bottom, transparent, rgba(255,215,0,0.7), transparent);
+      margin: 20px auto;
     }
 
-    @keyframes fadeInOut {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 1; }
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: fixed;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 1;
+      transition: opacity 0.5s, transform 0.5s;
+      padding-bottom: env(safe-area-inset-bottom);
     }
 
-    @keyframes scrollLine {
-      0% { transform: scaleY(0); transform-origin: top; }
-      50% { transform: scaleY(1); transform-origin: top; }
-      50.1% { transform: scaleY(1); transform-origin: bottom; }
-      100% { transform: scaleY(0); transform-origin: bottom; }
+    .scroll-indicator.hidden {
+      opacity: 0;
+      transform: translateX(-50%) translateY(20px);
     }
 
-    /* Section 2 styles */
+    .scroll-indicator span {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.8);
+      text-shadow: 0 2px 8px rgba(0,0,0,1);
+    }
+
+    .scroll-arrow {
+      width: 20px;
+      height: 20px;
+      border-right: 2px solid rgba(255,255,255,0.7);
+      border-bottom: 2px solid rgba(255,255,255,0.7);
+      transform: rotate(45deg);
+      animation: scrollBounce 1.5s ease-in-out infinite;
+    }
+
+    @keyframes scrollBounce {
+      0%, 100% { transform: rotate(45deg) translate(0, 0); opacity: 0.5; }
+      50% { transform: rotate(45deg) translate(5px, 5px); opacity: 1; }
+    }
+
+    /* Section 2 */
     .ganesh { 
-      font-size: clamp(3.5rem, 12vw, 6rem);
-      filter: drop-shadow(0 4px 30px rgba(0,0,0,0.9)) drop-shadow(0 0 50px rgba(255,200,100,0.5));
-      margin-bottom: 15px;
+      font-size: clamp(3rem, 15vw, 5rem);
+      filter: drop-shadow(0 4px 20px rgba(0,0,0,0.9)) drop-shadow(0 0 40px rgba(255,200,100,0.4));
+      margin-bottom: 8px;
     }
 
     .sanskrit { 
-      font-size: clamp(1rem, 3vw, 1.3rem);
+      font-size: clamp(0.85rem, 3.5vw, 1.1rem);
       color: #ffd700;
-      letter-spacing: 3px;
-      margin-bottom: 25px;
-      text-shadow: 0 2px 20px rgba(0,0,0,1);
+      letter-spacing: 2px;
+      margin-bottom: 18px;
+      text-shadow: 0 2px 15px rgba(0,0,0,1);
     }
 
     .subtitle { 
-      font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+      font-size: clamp(1rem, 4vw, 1.25rem);
       font-style: italic;
       color: rgba(255,255,255,0.95);
-      margin-bottom: 20px;
-      text-shadow: 0 2px 20px rgba(0,0,0,1);
-      line-height: 1.6;
+      margin-bottom: 15px;
+      text-shadow: 0 2px 15px rgba(0,0,0,1);
+      line-height: 1.5;
+      padding: 0 10px;
     }
 
     .divider { 
-      width: 100px;
+      width: 80px;
       height: 1px;
       background: linear-gradient(90deg, transparent, #ffd700, transparent);
-      margin: 30px auto;
-      box-shadow: 0 0 30px rgba(255,200,100,0.5);
+      margin: 20px auto;
+      box-shadow: 0 0 20px rgba(255,200,100,0.4);
     }
 
     .invite-title {
       font-family: 'Cinzel', serif;
-      font-size: clamp(2.2rem, 10vw, 4.5rem);
+      font-size: clamp(1.8rem, 10vw, 3.5rem);
       color: #fff;
-      letter-spacing: 0.12em;
-      margin: 25px 0;
-      text-shadow: 0 4px 30px rgba(0,0,0,0.8);
+      letter-spacing: 0.1em;
+      margin: 18px 0;
+      text-shadow: 0 4px 25px rgba(0,0,0,0.8);
     }
 
     .script-name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.5rem, 12vw, 5rem);
+      font-size: clamp(2.2rem, 12vw, 4rem);
       font-style: italic;
       color: #fff;
-      text-shadow: 0 4px 30px rgba(0,0,0,0.8), 0 0 80px rgba(255,180,100,0.2);
-      margin: 5px 0;
+      text-shadow: 0 4px 25px rgba(0,0,0,0.8);
+      margin: 3px 0;
     }
 
     /* Section 3 - Events */
     .section-title {
       font-family: 'Cinzel', serif;
-      font-size: clamp(2rem, 8vw, 3.5rem);
+      font-size: clamp(1.6rem, 8vw, 2.8rem);
       color: #fff;
-      letter-spacing: 0.15em;
-      margin-bottom: 40px;
-      text-shadow: 0 4px 30px rgba(0,0,0,0.8);
+      letter-spacing: 0.12em;
+      margin-bottom: 25px;
+      text-shadow: 0 4px 25px rgba(0,0,0,0.8);
     }
 
     .event-card {
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255,215,0,0.25);
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255,215,0,0.2);
       border-radius: 16px;
-      padding: 20px 25px;
-      margin-bottom: 15px;
+      padding: 16px 18px;
+      margin-bottom: 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 20px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
-                  box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-                  border-color 0.3s;
+      gap: 12px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+      transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.3s;
+      cursor: pointer;
     }
 
-    .event-card:hover {
-      transform: translateY(-8px) scale(1.02);
-      box-shadow: 0 20px 50px rgba(255,180,100,0.2);
+    .event-card:active {
+      transform: scale(0.98);
       border-color: rgba(255,215,0,0.5);
     }
 
-    .event-info { text-align: left; flex: 1; }
+    .event-info { text-align: left; flex: 1; min-width: 0; }
     
     .event-name { 
       font-family: 'Cinzel', serif;
-      font-size: clamp(1.2rem, 4vw, 1.5rem);
+      font-size: clamp(1rem, 4.5vw, 1.3rem);
       color: #fff;
       margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .event-details { 
-      font-size: clamp(0.9rem, 3vw, 1.05rem);
-      color: rgba(255,255,255,0.75);
-      margin: 6px 0 0;
+      font-size: clamp(0.8rem, 3.2vw, 0.95rem);
+      color: rgba(255,255,255,0.7);
+      margin: 4px 0 0;
     }
 
     .event-date {
       background: linear-gradient(135deg, #ffd700 0%, #ff9500 100%);
-      padding: 14px 20px;
+      padding: 10px 14px;
       border-radius: 12px;
       text-align: center;
-      box-shadow: 0 6px 25px rgba(255,180,0,0.4);
+      box-shadow: 0 4px 20px rgba(255,180,0,0.35);
       flex-shrink: 0;
-      transition: transform 0.3s;
-    }
-
-    .event-card:hover .event-date {
-      transform: scale(1.1) rotate(3deg);
     }
 
     .event-day { 
       font-family: 'Cinzel', serif;
-      font-size: clamp(1.6rem, 5vw, 2.2rem);
+      font-size: clamp(1.4rem, 6vw, 1.9rem);
       font-weight: 700;
       color: #1a0a1a;
       line-height: 1;
     }
 
     .event-month { 
-      font-size: clamp(0.65rem, 2vw, 0.75rem);
+      font-size: clamp(0.6rem, 2.2vw, 0.7rem);
       font-weight: 600;
       color: #1a0a1a;
       letter-spacing: 1px;
-      margin-top: 3px;
+      margin-top: 2px;
     }
 
     /* Section 4 - Venue */
     .venue-name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.2rem, 9vw, 4rem);
+      font-size: clamp(1.8rem, 10vw, 3.2rem);
       font-style: italic;
       color: #fff;
-      margin-bottom: 15px;
-      text-shadow: 0 4px 30px rgba(0,0,0,0.8);
+      margin-bottom: 10px;
+      text-shadow: 0 4px 25px rgba(0,0,0,0.8);
     }
 
     .btn {
-      display: inline-block;
-      padding: 16px 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 40px;
       background: linear-gradient(135deg, #ffd700 0%, #ff9500 100%);
       color: #1a0a1a;
       text-decoration: none;
       font-family: 'Cinzel', serif;
       font-weight: 700;
-      font-size: clamp(0.85rem, 2.5vw, 1rem);
+      font-size: clamp(0.75rem, 3vw, 0.9rem);
       letter-spacing: 2px;
       border-radius: 50px;
       border: none;
       cursor: pointer;
-      margin-top: 30px;
-      box-shadow: 0 10px 40px rgba(255,180,0,0.5);
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-                  box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative;
-      overflow: hidden;
+      margin-top: 25px;
+      box-shadow: 0 8px 30px rgba(255,180,0,0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      min-height: 50px;
     }
 
-    .btn::before {
-      content: '';
-      position: absolute;
-      top: 0; left: -100%;
-      width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-      transition: left 0.6s;
-    }
-
-    .btn:hover {
-      transform: translateY(-5px) scale(1.05);
-      box-shadow: 0 15px 50px rgba(255,180,0,0.6);
-    }
-
-    .btn:hover::before {
-      left: 100%;
+    .btn:active {
+      transform: scale(0.95);
+      box-shadow: 0 4px 20px rgba(255,180,0,0.3);
     }
 
     /* Countdown */
     .countdown {
       display: flex;
       justify-content: center;
-      gap: 12px;
-      margin-top: 40px;
+      gap: 8px;
+      margin-top: 30px;
       flex-wrap: wrap;
     }
 
     .countdown-item {
       background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border: 1px solid rgba(255,215,0,0.3);
-      border-radius: 14px;
-      padding: 15px 18px;
-      min-width: 80px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,215,0,0.25);
+      border-radius: 12px;
+      padding: 12px 10px;
+      min-width: 65px;
       text-align: center;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+      box-shadow: 0 6px 25px rgba(0,0,0,0.35);
     }
 
     .countdown-number {
       font-family: 'Cinzel', serif;
-      font-size: clamp(1.8rem, 7vw, 2.5rem);
+      font-size: clamp(1.5rem, 7vw, 2rem);
       font-weight: 700;
       color: #ffd700;
       line-height: 1;
-      text-shadow: 0 0 30px rgba(255,215,0,0.5);
+      text-shadow: 0 0 20px rgba(255,215,0,0.4);
     }
 
     .countdown-label {
-      font-size: clamp(0.65rem, 2vw, 0.8rem);
-      color: rgba(255,255,255,0.7);
+      font-size: clamp(0.55rem, 2.2vw, 0.7rem);
+      color: rgba(255,255,255,0.65);
       text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-top: 6px;
+      letter-spacing: 1px;
+      margin-top: 5px;
     }
 
     /* Footer */
     footer {
       position: relative;
-      background: linear-gradient(180deg, rgba(45,27,78,0.8) 0%, #0a0510 100%);
-      padding: 60px 20px;
+      background: linear-gradient(180deg, rgba(45,27,78,0.9) 0%, #0a0510 100%);
+      padding: 50px 20px;
+      padding-bottom: calc(50px + env(safe-area-inset-bottom));
       text-align: center;
       z-index: 10;
     }
 
     .footer-names { 
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2rem, 7vw, 3rem);
+      font-size: clamp(1.6rem, 7vw, 2.2rem);
       font-style: italic;
       color: #fff;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .footer-date { 
       font-family: 'Cinzel', serif;
-      font-size: clamp(0.9rem, 3vw, 1.1rem);
+      font-size: clamp(0.75rem, 3vw, 0.95rem);
       color: #ffd700;
-      letter-spacing: 0.25em;
+      letter-spacing: 0.2em;
     }
 
     .hashtag { 
-      margin-top: 25px;
-      font-size: clamp(1.1rem, 3.5vw, 1.3rem);
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 25px;
+      font-size: clamp(0.95rem, 4vw, 1.15rem);
       color: #ff90a8;
+      background: rgba(255,144,168,0.1);
+      border: 1px solid rgba(255,144,168,0.3);
+      border-radius: 30px;
       cursor: pointer;
-      transition: color 0.3s, transform 0.3s;
+      transition: all 0.3s ease;
     }
 
-    .hashtag:hover {
-      color: #ffb0c8;
-      transform: scale(1.05);
+    .hashtag:active {
+      background: rgba(255,144,168,0.2);
+      transform: scale(0.95);
     }
 
     /* Decorative border */
     .decorative-border {
       position: absolute;
-      top: 15px; left: 15px; right: 15px; bottom: 15px;
-      border: 1px solid rgba(255,215,0,0.15);
-      border-radius: 12px;
+      top: 10px; left: 10px; right: 10px; bottom: 10px;
+      border: 1px solid rgba(255,215,0,0.12);
+      border-radius: 10px;
       pointer-events: none;
-      z-index: 9;
+      z-index: 5;
     }
 
-    /* Progress bar */
-    .progress-bar {
+    /* Progress dots */
+    .progress-dots {
       position: fixed;
-      top: 0;
-      left: 0;
-      height: 2px;
-      background: linear-gradient(90deg, #ffd700, #ff9500);
-      z-index: 1000;
-      transform-origin: left;
-      transform: scaleX(0);
-      box-shadow: 0 0 10px rgba(255,200,0,0.5);
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-right: env(safe-area-inset-right);
     }
 
-    /* Mobile */
-    @media (max-width: 768px) {
-      .event-card {
-        padding: 15px 18px;
+    .progress-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      border: 1px solid rgba(255,215,0,0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .progress-dot.active {
+      background: #ffd700;
+      box-shadow: 0 0 10px rgba(255,215,0,0.5);
+      transform: scale(1.3);
+    }
+
+    /* Scroll direction indicator */
+    .scroll-direction {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 8px 16px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      font-size: 0.7rem;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,0.8);
+      z-index: 100;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      padding-top: calc(8px + env(safe-area-inset-top));
+    }
+
+    .scroll-direction.show {
+      opacity: 1;
+    }
+
+    /* Landscape adjustments */
+    @media (orientation: landscape) and (max-height: 500px) {
+      .section {
+        min-height: auto;
+        padding: 40px 20px;
       }
-      .countdown-item {
-        padding: 12px 14px;
-        min-width: 70px;
-      }
+      .content { padding: 20px; }
+      .title { font-size: 2.5rem; }
+      .ganesh { font-size: 2.5rem; }
+      .scroll-indicator { display: none; }
+      .countdown { gap: 6px; margin-top: 20px; }
+      .countdown-item { padding: 8px; min-width: 55px; }
     }
 
-    @media (max-height: 500px) and (orientation: landscape) {
-      .section { min-height: auto; padding: 60px 0; }
-      .scroll-hint { display: none; }
+    /* Small phones */
+    @media (max-width: 350px) {
+      .content { padding: 20px 15px; }
+      .event-card { padding: 12px 14px; }
+      .countdown-item { min-width: 58px; padding: 10px 8px; }
     }
 
+    /* Tablet */
+    @media (min-width: 768px) {
+      .content { max-width: 600px; }
+      .progress-dots { right: 25px; gap: 15px; }
+      .progress-dot { width: 10px; height: 10px; }
+    }
+
+    /* Reduced motion */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -575,245 +553,241 @@
 </head>
 <body>
 
-<div class="progress-bar" id="progressBar"></div>
+<!-- Progress dots navigation -->
+<nav class="progress-dots" id="progressDots">
+  <div class="progress-dot active" data-section="0"></div>
+  <div class="progress-dot" data-section="1"></div>
+  <div class="progress-dot" data-section="2"></div>
+  <div class="progress-dot" data-section="3"></div>
+</nav>
 
-<div class="scroll-container" id="scrollContainer">
-  <div class="scroll-content" id="scrollContent">
-
-    <!-- Section 1: Hero -->
-    <section class="section" id="section1" data-speed="0.8">
-      <div class="parallax-wrapper">
-        <div class="bg-layer bg-deep" data-parallax="-0.3">
-          <img src="https://i.imgur.com/JV8QhqT.jpeg" alt="">
-        </div>
-      </div>
-      <div class="overlay"></div>
-      <div class="lantern-layer lantern-layer-back" data-parallax="-0.15"></div>
-      <div class="lantern-layer lantern-layer-mid" data-parallax="0.1"></div>
-      <div class="lantern-layer lantern-layer-front" data-parallax="0.25"></div>
-      <div class="sparkle-layer"></div>
-      <div class="decorative-border"></div>
-      <div class="content">
-        <h1 class="title reveal-element">AADITI</h1>
-        <p class="weds reveal-element">W E D S</p>
-        <h1 class="title reveal-element">ATHARVA</h1>
-        <div class="decorative-line reveal-element"></div>
-        <p class="date reveal-element">25 • FEBRUARY • 2026</p>
-      </div>
-    </section>
-
-    <!-- Section 2: Invite -->
-    <section class="section" id="section2" data-speed="0.9">
-      <div class="parallax-wrapper">
-        <div class="bg-layer bg-deep" data-parallax="-0.25">
-          <img src="https://i.imgur.com/Ac5V4zs.jpeg" alt="">
-        </div>
-      </div>
-      <div class="overlay"></div>
-      <div class="lantern-layer lantern-layer-back" data-parallax="-0.1"></div>
-      <div class="lantern-layer lantern-layer-mid" data-parallax="0.15"></div>
-      <div class="lantern-layer lantern-layer-front" data-parallax="0.3"></div>
-      <div class="content">
-        <div class="ganesh reveal-element">🙏</div>
-        <p class="sanskrit reveal-element">ॐ श्री गणेशाय नमः</p>
-        <p class="subtitle reveal-element">With the blessings of our beloved families</p>
-        <div class="divider reveal-element"></div>
-        <h2 class="invite-title reveal-element">INVITE</h2>
-        <p class="subtitle reveal-element">You to join us in the wedding celebrations of</p>
-        <h2 class="script-name reveal-element">Aaditi</h2>
-        <p class="weds reveal-element" style="margin: 10px 0;">&</p>
-        <h2 class="script-name reveal-element">Atharva</h2>
-      </div>
-    </section>
-
-    <!-- Section 3: Events -->
-    <section class="section" id="section3" data-speed="0.85">
-      <div class="parallax-wrapper">
-        <div class="bg-layer bg-deep" data-parallax="-0.2">
-          <img src="https://i.imgur.com/0khhX5G.jpeg" alt="">
-        </div>
-      </div>
-      <div class="overlay"></div>
-      <div class="lantern-layer lantern-layer-back" data-parallax="-0.12"></div>
-      <div class="lantern-layer lantern-layer-mid" data-parallax="0.12"></div>
-      <div class="lantern-layer lantern-layer-front" data-parallax="0.28"></div>
-      <div class="content">
-        <h2 class="section-title reveal-element">CELEBRATIONS</h2>
-        <div class="event-card reveal-element">
-          <div class="event-info">
-            <h3 class="event-name">Haldi Ceremony</h3>
-            <p class="event-details">Avismara, Pune • 11:00 AM</p>
-          </div>
-          <div class="event-date">
-            <div class="event-day">22</div>
-            <div class="event-month">FEB 2026</div>
-          </div>
-        </div>
-        <div class="event-card reveal-element">
-          <div class="event-info">
-            <h3 class="event-name">Sangeet Night</h3>
-            <p class="event-details">Avismara, Pune • 7:00 PM</p>
-          </div>
-          <div class="event-date">
-            <div class="event-day">24</div>
-            <div class="event-month">FEB 2026</div>
-          </div>
-        </div>
-        <div class="event-card reveal-element">
-          <div class="event-info">
-            <h3 class="event-name">Wedding Ceremony</h3>
-            <p class="event-details">Avismara, Pune • Muhurat</p>
-          </div>
-          <div class="event-date">
-            <div class="event-day">25</div>
-            <div class="event-month">FEB 2026</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Section 4: Venue -->
-    <section class="section" id="section4" data-speed="0.9">
-      <div class="parallax-wrapper">
-        <div class="bg-layer bg-deep" data-parallax="-0.25">
-          <img src="https://i.imgur.com/UAUTiYh.jpeg" alt="">
-        </div>
-      </div>
-      <div class="overlay"></div>
-      <div class="lantern-layer lantern-layer-back" data-parallax="-0.1"></div>
-      <div class="lantern-layer lantern-layer-mid" data-parallax="0.18"></div>
-      <div class="lantern-layer lantern-layer-front" data-parallax="0.35"></div>
-      <div class="content">
-        <h2 class="section-title reveal-element">VENUE</h2>
-        <h3 class="venue-name reveal-element">Avismara</h3>
-        <p class="subtitle reveal-element">Pune, Maharashtra, India</p>
-        <button class="btn reveal-element" onclick="window.open('https://maps.google.com/?q=Avismara+Pune','_blank')">GET DIRECTIONS</button>
-        <div class="countdown reveal-element" id="countdown">
-          <div class="countdown-item">
-            <div class="countdown-number" id="days">--</div>
-            <div class="countdown-label">Days</div>
-          </div>
-          <div class="countdown-item">
-            <div class="countdown-number" id="hours">--</div>
-            <div class="countdown-label">Hours</div>
-          </div>
-          <div class="countdown-item">
-            <div class="countdown-number" id="minutes">--</div>
-            <div class="countdown-label">Mins</div>
-          </div>
-          <div class="countdown-item">
-            <div class="countdown-number" id="seconds">--</div>
-            <div class="countdown-label">Secs</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer>
-      <p class="footer-names">Aaditi & Atharva</p>
-      <p class="footer-date">25 FEBRUARY 2026</p>
-      <p class="hashtag" onclick="navigator.share?.({title:'Aaditi & Atharva Wedding', url:window.location.href}).catch(()=>{})">#AaditiWedsAtharva</p>
-    </footer>
-
-  </div>
+<!-- Scroll indicator -->
+<div class="scroll-indicator" id="scrollIndicator">
+  <span>SCROLL</span>
+  <div class="scroll-arrow"></div>
 </div>
 
-<div class="scroll-hint" id="scrollHint">SCROLL</div>
+<!-- Section 1: Hero -->
+<section class="section" id="section0">
+  <img class="section-bg" src="https://i.imgur.com/JV8QhqT.jpeg" alt="" loading="eager">
+  <div class="overlay"></div>
+  <div class="lantern-container" id="lanterns0"></div>
+  <div class="decorative-border"></div>
+  <div class="content">
+    <h1 class="title reveal">AADITI</h1>
+    <p class="weds reveal">W E D S</p>
+    <h1 class="title reveal">ATHARVA</h1>
+    <div class="decorative-line reveal"></div>
+    <p class="date reveal">25 • FEBRUARY • 2026</p>
+  </div>
+</section>
+
+<!-- Section 2: Invite -->
+<section class="section" id="section1">
+  <img class="section-bg" src="https://i.imgur.com/Ac5V4zs.jpeg" alt="" loading="lazy">
+  <div class="overlay"></div>
+  <div class="lantern-container" id="lanterns1"></div>
+  <div class="content">
+    <div class="ganesh reveal">🙏</div>
+    <p class="sanskrit reveal">ॐ श्री गणेशाय नमः</p>
+    <p class="subtitle reveal">With the blessings of our beloved families</p>
+    <div class="divider reveal"></div>
+    <h2 class="invite-title reveal">INVITE</h2>
+    <p class="subtitle reveal">You to join us in the wedding celebrations of</p>
+    <h2 class="script-name reveal">Aaditi</h2>
+    <p class="weds reveal" style="margin: 8px 0;">&</p>
+    <h2 class="script-name reveal">Atharva</h2>
+  </div>
+</section>
+
+<!-- Section 3: Events -->
+<section class="section" id="section2">
+  <img class="section-bg" src="https://i.imgur.com/0khhX5G.jpeg" alt="" loading="lazy">
+  <div class="overlay"></div>
+  <div class="lantern-container" id="lanterns2"></div>
+  <div class="content">
+    <h2 class="section-title reveal">CELEBRATIONS</h2>
+    <div class="event-card reveal">
+      <div class="event-info">
+        <h3 class="event-name">Haldi Ceremony</h3>
+        <p class="event-details">Avismara, Pune • 11 AM</p>
+      </div>
+      <div class="event-date">
+        <div class="event-day">22</div>
+        <div class="event-month">FEB</div>
+      </div>
+    </div>
+    <div class="event-card reveal">
+      <div class="event-info">
+        <h3 class="event-name">Sangeet Night</h3>
+        <p class="event-details">Avismara, Pune • 7 PM</p>
+      </div>
+      <div class="event-date">
+        <div class="event-day">24</div>
+        <div class="event-month">FEB</div>
+      </div>
+    </div>
+    <div class="event-card reveal">
+      <div class="event-info">
+        <h3 class="event-name">Wedding Ceremony</h3>
+        <p class="event-details">Avismara, Pune • Muhurat</p>
+      </div>
+      <div class="event-date">
+        <div class="event-day">25</div>
+        <div class="event-month">FEB</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 4: Venue & Countdown -->
+<section class="section" id="section3">
+  <img class="section-bg" src="https://i.imgur.com/UAUTiYh.jpeg" alt="" loading="lazy">
+  <div class="overlay"></div>
+  <div class="lantern-container" id="lanterns3"></div>
+  <div class="content">
+    <h2 class="section-title reveal">VENUE</h2>
+    <h3 class="venue-name reveal">Avismara</h3>
+    <p class="subtitle reveal">Pune, Maharashtra, India</p>
+    <button class="btn reveal" onclick="window.open('https://maps.google.com/?q=Avismara+Pune','_blank')">GET DIRECTIONS</button>
+    <div class="countdown reveal" id="countdown">
+      <div class="countdown-item">
+        <div class="countdown-number" id="days">--</div>
+        <div class="countdown-label">Days</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number" id="hours">--</div>
+        <div class="countdown-label">Hours</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number" id="minutes">--</div>
+        <div class="countdown-label">Mins</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number" id="seconds">--</div>
+        <div class="countdown-label">Secs</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p class="footer-names reveal">Aaditi & Atharva</p>
+  <p class="footer-date reveal">25 FEBRUARY 2026</p>
+  <p class="hashtag reveal" onclick="shareWedding()">#AaditiWedsAtharva</p>
+</footer>
 
 <script>
-// Smooth scroll implementation (like 45R website)
-class SmoothScroll {
+// Scroll direction detection & reveal system
+class ScrollReveal {
   constructor() {
-    this.container = document.getElementById('scrollContainer');
-    this.content = document.getElementById('scrollContent');
-    this.scrollHint = document.getElementById('scrollHint');
-    this.progressBar = document.getElementById('progressBar');
-    
-    this.current = 0;
-    this.target = 0;
-    this.ease = 0.08;
-    this.maxScroll = 0;
+    this.lastScrollY = 0;
+    this.scrollDirection = 'down';
+    this.ticking = false;
+    this.sections = document.querySelectorAll('.section');
+    this.dots = document.querySelectorAll('.progress-dot');
+    this.scrollIndicator = document.getElementById('scrollIndicator');
+    this.currentSection = 0;
     
     this.init();
   }
   
   init() {
-    document.body.style.height = this.content.offsetHeight + 'px';
-    this.maxScroll = this.content.offsetHeight - window.innerHeight;
-    
-    window.addEventListener('resize', () => {
-      document.body.style.height = this.content.offsetHeight + 'px';
-      this.maxScroll = this.content.offsetHeight - window.innerHeight;
+    window.addEventListener('scroll', () => this.onScroll(), { passive: true });
+    this.dots.forEach(dot => {
+      dot.addEventListener('click', (e) => this.scrollToSection(e));
     });
     
-    this.animate();
-  }
-  
-  animate() {
-    this.target = window.scrollY;
-    this.current += (this.target - this.current) * this.ease;
-    
-    // Apply smooth scroll
-    this.content.style.transform = `translateY(${-this.current}px)`;
-    
-    // Update progress bar
-    const progress = this.current / this.maxScroll;
-    this.progressBar.style.transform = `scaleX(${Math.min(progress, 1)})`;
-    
-    // Hide scroll hint after scrolling
-    if (this.current > 100) {
-      this.scrollHint.style.opacity = '0';
-    } else {
-      this.scrollHint.style.opacity = '1';
-    }
-    
-    // Parallax effects
-    this.updateParallax();
-    
-    // Reveal elements
+    // Initial check
     this.updateReveal();
-    
-    requestAnimationFrame(() => this.animate());
   }
   
-  updateParallax() {
-    const sections = document.querySelectorAll('.section');
+  onScroll() {
+    if (!this.ticking) {
+      requestAnimationFrame(() => {
+        this.detectDirection();
+        this.updateReveal();
+        this.updateProgress();
+        this.updateScrollIndicator();
+        this.ticking = false;
+      });
+      this.ticking = true;
+    }
+  }
+  
+  detectDirection() {
+    const currentScrollY = window.scrollY;
+    this.scrollDirection = currentScrollY > this.lastScrollY ? 'down' : 'up';
+    this.lastScrollY = currentScrollY;
+  }
+  
+  updateReveal() {
+    const reveals = document.querySelectorAll('.reveal');
+    const windowHeight = window.innerHeight;
     
-    sections.forEach(section => {
-      const rect = section.getBoundingClientRect();
-      const scrollProgress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+    reveals.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      const elementCenter = rect.top + rect.height / 2;
       
-      if (scrollProgress > -0.5 && scrollProgress < 1.5) {
-        // Background parallax
-        const bgLayers = section.querySelectorAll('[data-parallax]');
-        bgLayers.forEach(layer => {
-          const speed = parseFloat(layer.dataset.parallax);
-          const yOffset = (scrollProgress - 0.5) * 300 * speed;
-          layer.style.transform = `translateY(${yOffset}px)`;
-        });
-        
-        // Content subtle parallax
-        const content = section.querySelector('.content');
-        if (content) {
-          const contentOffset = (scrollProgress - 0.5) * 50;
-          const opacity = 1 - Math.abs(scrollProgress - 0.5) * 0.5;
-          content.style.opacity = Math.max(0.3, opacity);
+      // Element is in viewport
+      if (rect.top < windowHeight * 0.85 && rect.bottom > windowHeight * 0.1) {
+        if (this.scrollDirection === 'down') {
+          el.classList.remove('retract');
+          el.classList.add('visible');
+        } else {
+          // When scrolling up, check if element is leaving viewport from top
+          if (rect.bottom < windowHeight * 0.3) {
+            el.classList.remove('visible');
+            el.classList.add('retract');
+          } else {
+            el.classList.remove('retract');
+            el.classList.add('visible');
+          }
+        }
+      } else if (rect.top >= windowHeight) {
+        // Element is below viewport
+        el.classList.remove('visible', 'retract');
+      } else if (rect.bottom <= 0) {
+        // Element is above viewport
+        if (this.scrollDirection === 'up') {
+          el.classList.remove('visible');
+          el.classList.add('retract');
         }
       }
     });
   }
   
-  updateReveal() {
-    const elements = document.querySelectorAll('.reveal-element');
+  updateProgress() {
+    const scrollY = window.scrollY;
+    const windowHeight = window.innerHeight;
     
-    elements.forEach(el => {
-      const rect = el.getBoundingClientRect();
-      const isVisible = rect.top < window.innerHeight * 0.85 && rect.bottom > 0;
-      
-      if (isVisible) {
-        el.classList.add('visible');
+    this.sections.forEach((section, index) => {
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= windowHeight / 2 && rect.bottom >= windowHeight / 2) {
+        this.currentSection = index;
       }
     });
+    
+    this.dots.forEach((dot, index) => {
+      dot.classList.toggle('active', index === this.currentSection);
+    });
+  }
+  
+  updateScrollIndicator() {
+    const scrollY = window.scrollY;
+    if (scrollY > 100) {
+      this.scrollIndicator.classList.add('hidden');
+    } else {
+      this.scrollIndicator.classList.remove('hidden');
+    }
+  }
+  
+  scrollToSection(e) {
+    const index = parseInt(e.target.dataset.section);
+    const section = document.getElementById(`section${index}`);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 }
 
@@ -824,72 +798,73 @@ function updateCountdown() {
   const distance = weddingDate - now;
 
   if (distance > 0) {
-    document.getElementById('days').textContent = Math.floor(distance / (1000 * 60 * 60 * 24));
-    document.getElementById('hours').textContent = String(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
-    document.getElementById('minutes').textContent = String(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
-    document.getElementById('seconds').textContent = String(Math.floor((distance % (1000 * 60)) / 1000)).padStart(2, '0');
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById('days').textContent = days;
+    document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+    document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+  } else {
+    document.getElementById('countdown').innerHTML = '<div class="countdown-item" style="min-width:auto;padding:15px 30px;"><div class="countdown-number" style="font-size:1.3rem;">🎉 Today!</div></div>';
   }
 }
 
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
-// Create Lanterns (3 layers for depth)
+// Lanterns - Mobile optimized (fewer for performance)
 function createLanterns() {
-  const layers = [
-    { selector: '.lantern-layer-back', count: 6, sizeRange: [15, 25], duration: [25, 40] },
-    { selector: '.lantern-layer-mid', count: 8, sizeRange: [25, 40], duration: [20, 32] },
-    { selector: '.lantern-layer-front', count: 5, sizeRange: [40, 60], duration: [15, 25] }
-  ];
+  const isMobile = window.innerWidth < 768;
+  const count = isMobile ? 5 : 8;
   
-  document.querySelectorAll('.section').forEach(section => {
-    layers.forEach(layer => {
-      const container = section.querySelector(layer.selector);
-      if (!container) return;
+  for (let i = 0; i < 4; i++) {
+    const container = document.getElementById(`lanterns${i}`);
+    if (!container) continue;
+    
+    for (let j = 0; j < count; j++) {
+      const lantern = document.createElement('div');
+      lantern.className = 'lantern';
       
-      for (let i = 0; i < layer.count; i++) {
-        const lantern = document.createElement('div');
-        lantern.className = 'lantern';
-        
-        const size = layer.sizeRange[0] + Math.random() * (layer.sizeRange[1] - layer.sizeRange[0]);
-        const floatDuration = layer.duration[0] + Math.random() * (layer.duration[1] - layer.duration[0]);
-        const swayDuration = 3 + Math.random() * 4;
-        
-        lantern.style.width = size + 'px';
-        lantern.style.height = size * 1.3 + 'px';
-        lantern.style.left = Math.random() * 100 + '%';
-        lantern.style.animationDuration = `${floatDuration}s, ${swayDuration}s`;
-        lantern.style.animationDelay = `${Math.random() * floatDuration}s, ${Math.random() * swayDuration}s`;
-        
-        container.appendChild(lantern);
-      }
-    });
-  });
+      const size = 20 + Math.random() * 25;
+      const duration = 20 + Math.random() * 15;
+      const swayDuration = 3 + Math.random() * 3;
+      
+      lantern.style.cssText = `
+        width: ${size}px;
+        height: ${size * 1.3}px;
+        left: ${Math.random() * 90 + 5}%;
+        animation-duration: ${duration}s, ${swayDuration}s;
+        animation-delay: ${Math.random() * duration}s, ${Math.random() * swayDuration}s;
+        filter: drop-shadow(0 0 ${8 + size/5}px rgba(255,150,50,${0.3 + size/100}));
+        opacity: ${0.5 + (size/50)};
+      `;
+      
+      container.appendChild(lantern);
+    }
+  }
 }
 
-// Create Sparkles
-function createSparkles() {
-  document.querySelectorAll('.sparkle-layer').forEach(container => {
-    for (let i = 0; i < 30; i++) {
-      const sparkle = document.createElement('div');
-      sparkle.className = 'sparkle';
-      sparkle.style.left = Math.random() * 100 + '%';
-      sparkle.style.top = Math.random() * 100 + '%';
-      sparkle.style.animationDuration = (1.5 + Math.random() * 2) + 's';
-      sparkle.style.animationDelay = Math.random() * 3 + 's';
-      const size = 2 + Math.random() * 4;
-      sparkle.style.width = size + 'px';
-      sparkle.style.height = size + 'px';
-      container.appendChild(sparkle);
-    }
-  });
+// Share function
+function shareWedding() {
+  if (navigator.share) {
+    navigator.share({
+      title: 'Aaditi & Atharva Wedding',
+      text: 'You are invited to our wedding on February 25, 2026!',
+      url: window.location.href
+    }).catch(() => {});
+  } else {
+    // Fallback - copy to clipboard
+    navigator.clipboard?.writeText(window.location.href);
+  }
 }
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
+  new ScrollReveal();
   createLanterns();
-  createSparkles();
-  new SmoothScroll();
 });
 </script>
 
