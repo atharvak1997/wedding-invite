@@ -60,32 +60,22 @@
 
     .lantern {
       position: absolute;
-      width: 20px;
-      height: 28px;
-      background: radial-gradient(ellipse at center, #ffdd88 0%, #ff9944 50%, #ff6622 100%);
-      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-      box-shadow: 0 0 20px #ff9944, 0 0 40px #ff6622, 0 0 60px rgba(255,150,50,0.5);
+      width: 40px;
+      height: 50px;
+      background-image: url('https://i.imgur.com/2LWI5ZW.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
       animation: floatUp linear infinite;
       opacity: 0;
-    }
-
-    .lantern::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 8px;
-      height: 5px;
-      background: #aa4400;
-      border-radius: 0 0 3px 3px;
+      filter: drop-shadow(0 0 15px rgba(255,150,50,0.6));
     }
 
     @keyframes floatUp {
-      0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
-      10% { opacity: 0.8; }
-      90% { opacity: 0.8; }
-      100% { transform: translateY(-100vh) translateX(30px) rotate(10deg); opacity: 0; }
+      0% { transform: translateY(100vh) translateX(0) rotate(-5deg); opacity: 0; }
+      10% { opacity: 0.9; }
+      90% { opacity: 0.9; }
+      100% { transform: translateY(-100vh) translateX(30px) rotate(5deg); opacity: 0; }
     }
 
     /* Sparkle effect */
@@ -183,7 +173,7 @@
       display: flex;
       justify-content: center;
       gap: 10px;
-      margin-top: 25px;
+      margin-top: 30px;
       flex-wrap: wrap;
     }
 
@@ -525,24 +515,6 @@
     <p class="weds">W E D S</p>
     <h1 class="title">ATHARVA</h1>
     <p class="date">25 • FEBRUARY • 2026</p>
-    <div class="countdown" id="countdown">
-      <div class="countdown-item">
-        <div class="countdown-number" id="days">--</div>
-        <div class="countdown-label">Days</div>
-      </div>
-      <div class="countdown-item">
-        <div class="countdown-number" id="hours">--</div>
-        <div class="countdown-label">Hours</div>
-      </div>
-      <div class="countdown-item">
-        <div class="countdown-number" id="minutes">--</div>
-        <div class="countdown-label">Mins</div>
-      </div>
-      <div class="countdown-item">
-        <div class="countdown-number" id="seconds">--</div>
-        <div class="countdown-label">Secs</div>
-      </div>
-    </div>
   </div>
   <div class="scroll-hint" onclick="document.getElementById('section2').scrollIntoView({behavior:'smooth'})">SCROLL</div>
 </section>
@@ -615,6 +587,24 @@
     <h3 class="venue-name reveal">Avismara</h3>
     <p class="subtitle reveal">Pune, Maharashtra, India</p>
     <button class="btn reveal" onclick="window.open('https://maps.google.com/?q=Avismara+Pune','_blank')">GET DIRECTIONS</button>
+    <div class="countdown reveal" id="countdown">
+      <div class="countdown-item">
+        <div class="countdown-number" id="days">--</div>
+        <div class="countdown-label">Days</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number" id="hours">--</div>
+        <div class="countdown-label">Hours</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number" id="minutes">--</div>
+        <div class="countdown-label">Mins</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number" id="seconds">--</div>
+        <div class="countdown-label">Secs</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -654,13 +644,15 @@ setInterval(updateCountdown, 1000);
 function createLanterns() {
   const containers = document.querySelectorAll('.lanterns-container');
   containers.forEach(container => {
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 8; i++) {
       const lantern = document.createElement('div');
       lantern.className = 'lantern';
       lantern.style.left = Math.random() * 100 + '%';
-      lantern.style.animationDuration = (15 + Math.random() * 15) + 's';
-      lantern.style.animationDelay = (Math.random() * 10) + 's';
-      lantern.style.transform = `scale(${0.5 + Math.random() * 0.5})`;
+      lantern.style.animationDuration = (18 + Math.random() * 12) + 's';
+      lantern.style.animationDelay = (Math.random() * 15) + 's';
+      const scale = 0.6 + Math.random() * 0.8;
+      lantern.style.width = (40 * scale) + 'px';
+      lantern.style.height = (50 * scale) + 'px';
       container.appendChild(lantern);
     }
   });
