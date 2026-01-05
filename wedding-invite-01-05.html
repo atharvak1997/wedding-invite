@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0510">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Aaditi & Atharva - Wedding</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    
+    html { 
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+    
+    body { 
+      font-family: 'Cormorant Garamond', serif; 
+      background: #0a0510;
+      color: #fff;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Section */
+    .section {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 60px 0;
+      padding-top: calc(60px + env(safe-area-inset-top));
+      padding-bottom: calc(60px + env(safe-area-inset-bottom));
+    }
+
+    /* Background */
+    .section-bg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center 55%;
+      z-index: 1;
+      filter: blur(1.5px) brightness(0.7);
+      transform: scale(1.1);
+      transition: transform 0.8s ease-out;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at center, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 100%);
+      z-index: 2;
+    }
+
+    /* Lanterns */
+    .lantern-container {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      z-index: 3;
+      overflow: hidden;
+    }
+
+    .lantern {
+      position: absolute;
+      background-image: url('https://i.imgur.com/2LWI5ZW.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      animation: floatUp linear infinite, sway ease-in-out infinite;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(100vh); opacity: 0; }
+      5% { opacity: 0.8; }
+      95% { opacity: 0.8; }
+      100% { transform: translateY(-15vh); opacity: 0; }
+    }
+
+    @keyframes sway {
+      0%, 100% { margin-left: 0; }
+      50% { margin-left: 15px; }
+    }
+
+    /* Content */
+    .content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 30px 20px;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    /* Reveal animations - direction aware */
+    .reveal {
+      opacity: 0;
+      transform: translateY(50px) scale(0.95);
+      transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Retract when scrolling up */
+    .reveal.retract {
+      opacity: 0;
+      transform: translateY(-30px) scale(0.98);
+    }
+
+    /* Stagger delays */
+    .reveal:nth-child(1) { transition-delay: 0s; }
+    .reveal:nth-child(2) { transition-delay: 0.08s; }
+    .reveal:nth-child(3) { transition-delay: 0.16s; }
+    .reveal:nth-child(4) { transition-delay: 0.24s; }
+    .reveal:nth-child(5) { transition-delay: 0.32s; }
+    .reveal:nth-child(6) { transition-delay: 0.4s; }
+    .reveal:nth-child(7) { transition-delay: 0.48s; }
+    .reveal:nth-child(8) { transition-delay: 0.56s; }
+    .reveal:nth-child(9) { transition-delay: 0.64s; }
+
+    /* Typography - Mobile optimized */
+    .title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.8rem, 16vw, 5rem);
+      font-weight: 500;
+      color: #fff;
+      letter-spacing: 0.06em;
+      text-shadow: 
+        0 2px 4px rgba(0,0,0,1),
+        0 6px 20px rgba(0,0,0,0.8),
+        0 0 60px rgba(255,150,100,0.25);
+      margin: 0;
+      line-height: 1.1;
+    }
+
+    .weds {
+      font-size: clamp(1rem, 5vw, 1.6rem);
+      color: #ffd700;
+      letter-spacing: 0.5em;
+      margin: 12px 0;
+      text-shadow: 0 2px 15px rgba(0,0,0,1);
+    }
+
+    .date {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(0.85rem, 3.5vw, 1.2rem);
+      color: rgba(255,255,255,0.9);
+      letter-spacing: 0.2em;
+      margin-top: 20px;
+      text-shadow: 0 2px 10px rgba(0,0,0,1);
+    }
+
+    .decorative-line {
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(to bottom, transparent, rgba(255,215,0,0.7), transparent);
+      margin: 20px auto;
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: fixed;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 1;
+      transition: opacity 0.5s, transform 0.5s;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .scroll-indicator.hidden {
+      opacity: 0;
+      transform: translateX(-50%) translateY(20px);
+    }
+
+    .scroll-indicator span {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.8);
+      text-shadow: 0 2px 8px rgba(0,0,0,1);
+    }
+
+    .scroll-arrow {
+      width: 20px;
+      height: 20px;
+      border-right: 2px solid rgba(255,255,255,0.7);
+      border-bottom: 2px solid rgba(255,255,255,0.7);
+      transform: rotate(45deg);
+      animation: scrollBounce 1.5s ease-in-out infinite;
+    }
+
+    @keyframes scrollBounce {
+      0%, 100% { transform: rotate(45deg) translate(0, 0); opacity: 0.5; }
+      50% { transform: rotate(45deg) translate(5px, 5px); opacity: 1; }
+    }
+
+    /* Section 2 */
+    .ganesh { 
+      font-size: clamp(3rem, 15vw, 5rem);
+      filter: drop-shadow(0 4px 20px rgba(0,0,0,0.9)) drop-shadow(0 0 40px rgba(255,200,100,0.4));
+      margin-bottom: 8px;
+    }
+
+    .sanskrit { 
+      font-size: clamp(0.85rem, 3.5vw, 1.1rem);
+      color: #ffd700;
+      letter-spacing: 2px;
+      margin-bottom: 18px;
+      text-shadow: 0 2px 15px rgba(0,0,0,1);
+    }
+
+    .subtitle { 
+      font-size: clamp(1rem, 4vw, 1.25rem);
+      font-style: italic;
+      color: rgba(255,255,255,0.95);
+      margin-bottom: 15px;
+      text-shadow: 0 2px 15px rgba(0,0,0,1);
+      line-height: 1.5;
+      padding: 0 10px;
+    }
+
+    .divider { 
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #ffd700, transparent);
+      margin: 20px auto;
+      box-shadow: 0 0 20px rgba(255,200,100,0.4);
+    }
+
+    .invite-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.8rem, 10vw, 3.5rem);
+      color: #fff;
+      letter-spacing: 0.1em;
+      margin: 18px 0;
+      text-shadow: 0 4px 25px rgba(0,0,0,0.8);
+    }
+
+    .script-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 12vw, 4rem);
+      font-style: italic;
+      color: #fff;
+      text-shadow: 0 4px 25px rgba(0,0,0,0.8);
+      margin: 3px 0;
+    }
+
+    /* Section 3 - Events */
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.6rem, 8vw, 2.8rem);
+      color: #fff;
+      letter-spacing: 0.12em;
+      margin-bottom: 25px;
+      text-shadow: 0 4px 25px rgba(0,0,0,0.8);
+    }
+
+    .event-card {
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255,215,0,0.2);
+      border-radius: 16px;
+      padding: 16px 18px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+      transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.3s;
+      cursor: pointer;
+    }
+
+    .event-card:active {
+      transform: scale(0.98);
+      border-color: rgba(255,215,0,0.5);
+    }
+
+    .event-info { text-align: left; flex: 1; min-width: 0; }
+    
+    .event-name { 
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1rem, 4.5vw, 1.3rem);
+      color: #fff;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .event-details { 
+      font-size: clamp(0.8rem, 3.2vw, 0.95rem);
+      color: rgba(255,255,255,0.7);
+      margin: 4px 0 0;
+    }
+
+    .event-date {
+      background: linear-gradient(135deg, #ffd700 0%, #ff9500 100%);
+      padding: 10px 14px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(255,180,0,0.35);
+      flex-shrink: 0;
+    }
+
+    .event-day { 
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.4rem, 6vw, 1.9rem);
+      font-weight: 700;
+      color: #1a0a1a;
+      line-height: 1;
+    }
+
+    .event-month { 
+      font-size: clamp(0.6rem, 2.2vw, 0.7rem);
+      font-weight: 600;
+      color: #1a0a1a;
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+
+    /* Section 4 - Venue */
+    .venue-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 10vw, 3.2rem);
+      font-style: italic;
+      color: #fff;
+      margin-bottom: 10px;
+      text-shadow: 0 4px 25px rgba(0,0,0,0.8);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 40px;
+      background: linear-gradient(135deg, #ffd700 0%, #ff9500 100%);
+      color: #1a0a1a;
+      text-decoration: none;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: clamp(0.75rem, 3vw, 0.9rem);
+      letter-spacing: 2px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      margin-top: 25px;
+      box-shadow: 0 8px 30px rgba(255,180,0,0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      min-height: 50px;
+    }
+
+    .btn:active {
+      transform: scale(0.95);
+      box-shadow: 0 4px 20px rgba(255,180,0,0.3);
+    }
+
+    /* Countdown */
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+
+    .countdown-item {
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,215,0,0.25);
+      border-radius: 12px;
+      padding: 12px 10px;
+      min-width: 65px;
+      text-align: center;
+      box-shadow: 0 6px 25px rgba(0,0,0,0.35);
+    }
+
+    .countdown-number {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.5rem, 7vw, 2rem);
+      font-weight: 700;
+      color: #ffd700;
+      line-height: 1;
+      text-shadow: 0 0 20px rgba(255,215,0,0.4);
+    }
+
+    .countdown-label {
+      font-size: clamp(0.55rem, 2.2vw, 0.7rem);
+      color: rgba(255,255,255,0.65);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 5px;
+    }
+
+    /* Footer */
+    footer {
+      position: relative;
+      background: linear-gradient(180deg, rgba(45,27,78,0.9) 0%, #0a0510 100%);
+      padding: 50px 20px;
+      padding-bottom: calc(50px + env(safe-area-inset-bottom));
+      text-align: center;
+      z-index: 10;
+    }
+
+    .footer-names { 
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem, 7vw, 2.2rem);
+      font-style: italic;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .footer-date { 
+      font-family: 'Cinzel', serif;
+      font-size: clamp(0.75rem, 3vw, 0.95rem);
+      color: #ffd700;
+      letter-spacing: 0.2em;
+    }
+
+    .hashtag { 
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 25px;
+      font-size: clamp(0.95rem, 4vw, 1.15rem);
+      color: #ff90a8;
+      background: rgba(255,144,168,0.1);
+      border: 1px solid rgba(255,144,168,0.3);
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .hashtag:active {
+      background: rgba(255,144,168,0.2);
+      transform: scale(0.95);
+    }
+
+    /* Decorative border */
+    .decorative-border {
+      position: absolute;
+      top: 10px; left: 10px; right: 10px; bottom: 10px;
+      border: 1px solid rgba(255,215,0,0.12);
+      border-radius: 10px;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    /* Progress dots */
+    .progress-dots {
+      position: fixed;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-right: env(safe-area-inset-right);
+    }
+
+    .progress-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      border: 1px solid rgba(255,215,0,0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .progress-dot.active {
+      background: #ffd700;
+      box-shadow: 0 0 10px rgba(255,215,0,0.5);
+      transform: scale(1.3);
+    }
+
+    /* Scroll direction indicator */
+    .scroll-direction {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 8px 16px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      font-size: 0.7rem;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,0.8);
+      z-index: 100;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      padding-top: calc(8px + env(safe-area-inset-top));
+    }
+
+    .scroll-direction.show {
+      opacity: 1;
+    }
+
+    /* Landscape adjustments */
+    @media (orientation: landscape) and (max-height: 500px) {
+      .section {
+        min-height: auto;
+        padding: 40px 20px;
+      }
+      .content { padding: 20px; }
+      .title { font-size: 2.5rem; }
+      .ganesh { font-size: 2.5rem; }
+      .scroll-indicator { display: none; }
+      .countdown { gap: 6px; margin-top: 20px; }
+      .countdown-item { padding: 8px; min-width: 55px; }
+    }
+
+    /* Small phones */
+    @media (max-width: 350px) {
+      .content { padding: 20px 15px; }
+      .event-card { padding: 12px 14px; }
+      .countdown-item { min-width: 58px; padding: 10px 8px; }
+    }
+
+    /* Tablet */
+    @media (min-width: 768px) {
+      .content { max-width: 600px; }
+      .progress-dots { right: 25px; gap: 15px; }
+      .progress-dot { width: 10px; height: 10px; }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Progress dots navigation -->
+<nav class="progress-dots" id="progressDots">
+  <div class="progress-dot active" data-section="0"></div>
+  <div class="progress-dot" data-section="1"></div>
+  <div class="progress-dot" data-section="2"></div>
+  <div class="progress-dot" data-section="3"></div>
+</nav>
+
+<!-- Scroll indicator -->
+<div class="scroll-indicator" id="scrollIndicator">
+  <span>SCROLL</span>
+  <div class="scroll-arrow"></div>
+</div>
+
+<!-- Section 1: Hero -->
+<section class="section" id="section0">
+  <img class="section-bg" src="https://i.imgur.com/JV8QhqT.jpeg" alt="" loading="eager">
+  <div class="overlay"></div>
+  <div class="lantern-container" id="lanterns0"></div>
+  <div class="decorative-border"></div>
+  <div class="content">
+    <h1 class="title reveal">AADITI</h1>
+    <p class="weds reveal">W E D S</p>
+    <h1 class="title reveal">ATHARVA</h1>
+    <div class="decorative-line reveal"></div>
+    <p class="date reveal">25 • FEBRUARY • 2026</p>
+  </div>
+</section>
+
+<!-- Section 2: Invite -->
+<section class="section" id="section1">
+  <img class="section-bg" src="https://i.imgur.com/Ac5V4zs.jpeg" alt="" loading="lazy">
+  <div class="overlay"></div>
+  <div class="lantern-container" id="lanterns1"></div>
+  <div class="content">
+    <div class="ganesh reveal">🙏</div>
+    <p class="sanskrit reveal">ॐ श्री गणेशाय नमः</p>
+    <p class="subtitle reveal">With the blessings of our beloved families</p>
+    <div class="divider reveal"></div>
+    <h2 class="invite-title reveal">INVITE</h2>
+    <p class="subtitle reveal">You to join us in the wedding celebrations of</p>
+    <h2 class="script-name reveal">Aaditi</h2>
+    <p class="weds reveal" style="margin: 8px 0;">&</p>
+    <h2 class="script-name reveal">Atharva</h2>
+  </div>
+</section>
+
+<!-- Section 3: Events -->
+<section class="section" id="section2">
+  <img class="section-bg" src="https://i.imgur.com/0khhX5G.jpeg" alt="" loading="lazy">
+  <div class="overlay"></div>
+  <div class="lantern-container" id="lanterns2"></div>
+  <div class="content">
+    <h2 class="section-title reveal">CELEBRATIONS</h2>
+    <div class="event-card reveal">
+      <div class="event-info">
+        <h3 class="event-name">Haldi Ceremony</h3>
+        <p class="event-details">Avismara, Pune • 11 AM</p>
+      </div>
+      <div class="event-date">
+        <div class="event-day">22</div>
+        <div class="event-month">FEB</div>
+      </div>
+    </div>
+    <div class="event-card reveal">
+      <div class="event-info">
+        <h3 class="event-name">Sangeet Night</h3>
+        <p class="event-details">Avismara, Pune • 7 PM</p>
+      </div>
+      <div class="event-date">
+        <div class="event-day">24</div>
+        <div class="event-month">FEB</div>
+      </div>
+    </div>
+    <div class="event-card reveal">
+      <div class="event-info">
+        <h3 class="event-name">Wedding Ceremony</h3>
+        <p class="event-details">Avismara, Pune • Muhurat</p>
+      </div>
+      <div class="event-date">
+        <div class="event-day">25</div>
+        <div class="event-month">FEB</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 4: Venue & Countdown -->
+<section class="section" id="section3">
+  <img class="section-bg" src="https://i.imgur.com/UAUTiYh.jpeg" alt="" loading="lazy">
+  <div class="overlay"></div>
+  <div class="lantern-container" id="lanterns3"></div>
+  <div class="content">
+    <h2 class="section-title reveal">VENUE</h2>
+    <h3 class="venue-name reveal">Avismara</h3>
+    <p class="subtitle reveal">Pune, Maharashtra, India</p>
+    <button class="btn reveal" onclick="window.open('https://maps.google.com/?q=Avismara+Pune','_blank')">GET DIRECTIONS</button>
+    <div class="countdown reveal" id="countdown">
+      <div class="countdown-item">
+        <div class="countdown-number" id="days">--</div>
+        <div class="countdown-label">Days</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number" id="hours">--</div>
+        <div class="countdown-label">Hours</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number" id="minutes">--</div>
+        <div class="countdown-label">Mins</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number" id="seconds">--</div>
+        <div class="countdown-label">Secs</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p class="footer-names reveal">Aaditi & Atharva</p>
+  <p class="footer-date reveal">25 FEBRUARY 2026</p>
+  <p class="hashtag reveal" onclick="shareWedding()">#AaditiWedsAtharva</p>
+</footer>
+
+<script>
+// Scroll direction detection & reveal system
+class ScrollReveal {
+  constructor() {
+    this.lastScrollY = 0;
+    this.scrollDirection = 'down';
+    this.ticking = false;
+    this.sections = document.querySelectorAll('.section');
+    this.dots = document.querySelectorAll('.progress-dot');
+    this.scrollIndicator = document.getElementById('scrollIndicator');
+    this.currentSection = 0;
+    
+    this.init();
+  }
+  
+  init() {
+    window.addEventListener('scroll', () => this.onScroll(), { passive: true });
+    this.dots.forEach(dot => {
+      dot.addEventListener('click', (e) => this.scrollToSection(e));
+    });
+    
+    // Initial check
+    this.updateReveal();
+  }
+  
+  onScroll() {
+    if (!this.ticking) {
+      requestAnimationFrame(() => {
+        this.detectDirection();
+        this.updateReveal();
+        this.updateProgress();
+        this.updateScrollIndicator();
+        this.ticking = false;
+      });
+      this.ticking = true;
+    }
+  }
+  
+  detectDirection() {
+    const currentScrollY = window.scrollY;
+    this.scrollDirection = currentScrollY > this.lastScrollY ? 'down' : 'up';
+    this.lastScrollY = currentScrollY;
+  }
+  
+  updateReveal() {
+    const reveals = document.querySelectorAll('.reveal');
+    const windowHeight = window.innerHeight;
+    
+    reveals.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      const elementCenter = rect.top + rect.height / 2;
+      
+      // Element is in viewport
+      if (rect.top < windowHeight * 0.85 && rect.bottom > windowHeight * 0.1) {
+        if (this.scrollDirection === 'down') {
+          el.classList.remove('retract');
+          el.classList.add('visible');
+        } else {
+          // When scrolling up, check if element is leaving viewport from top
+          if (rect.bottom < windowHeight * 0.3) {
+            el.classList.remove('visible');
+            el.classList.add('retract');
+          } else {
+            el.classList.remove('retract');
+            el.classList.add('visible');
+          }
+        }
+      } else if (rect.top >= windowHeight) {
+        // Element is below viewport
+        el.classList.remove('visible', 'retract');
+      } else if (rect.bottom <= 0) {
+        // Element is above viewport
+        if (this.scrollDirection === 'up') {
+          el.classList.remove('visible');
+          el.classList.add('retract');
+        }
+      }
+    });
+  }
+  
+  updateProgress() {
+    const scrollY = window.scrollY;
+    const windowHeight = window.innerHeight;
+    
+    this.sections.forEach((section, index) => {
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= windowHeight / 2 && rect.bottom >= windowHeight / 2) {
+        this.currentSection = index;
+      }
+    });
+    
+    this.dots.forEach((dot, index) => {
+      dot.classList.toggle('active', index === this.currentSection);
+    });
+  }
+  
+  updateScrollIndicator() {
+    const scrollY = window.scrollY;
+    if (scrollY > 100) {
+      this.scrollIndicator.classList.add('hidden');
+    } else {
+      this.scrollIndicator.classList.remove('hidden');
+    }
+  }
+  
+  scrollToSection(e) {
+    const index = parseInt(e.target.dataset.section);
+    const section = document.getElementById(`section${index}`);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+}
+
+// Countdown Timer
+function updateCountdown() {
+  const weddingDate = new Date('February 25, 2026 00:00:00').getTime();
+  const now = new Date().getTime();
+  const distance = weddingDate - now;
+
+  if (distance > 0) {
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById('days').textContent = days;
+    document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+    document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+  } else {
+    document.getElementById('countdown').innerHTML = '<div class="countdown-item" style="min-width:auto;padding:15px 30px;"><div class="countdown-number" style="font-size:1.3rem;">🎉 Today!</div></div>';
+  }
+}
+
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// Lanterns - Mobile optimized (fewer for performance)
+function createLanterns() {
+  const isMobile = window.innerWidth < 768;
+  const count = isMobile ? 5 : 8;
+  
+  for (let i = 0; i < 4; i++) {
+    const container = document.getElementById(`lanterns${i}`);
+    if (!container) continue;
+    
+    for (let j = 0; j < count; j++) {
+      const lantern = document.createElement('div');
+      lantern.className = 'lantern';
+      
+      const size = 20 + Math.random() * 25;
+      const duration = 20 + Math.random() * 15;
+      const swayDuration = 3 + Math.random() * 3;
+      
+      lantern.style.cssText = `
+        width: ${size}px;
+        height: ${size * 1.3}px;
+        left: ${Math.random() * 90 + 5}%;
+        animation-duration: ${duration}s, ${swayDuration}s;
+        animation-delay: ${Math.random() * duration}s, ${Math.random() * swayDuration}s;
+        filter: drop-shadow(0 0 ${8 + size/5}px rgba(255,150,50,${0.3 + size/100}));
+        opacity: ${0.5 + (size/50)};
+      `;
+      
+      container.appendChild(lantern);
+    }
+  }
+}
+
+// Share function
+function shareWedding() {
+  if (navigator.share) {
+    navigator.share({
+      title: 'Aaditi & Atharva Wedding',
+      text: 'You are invited to our wedding on February 25, 2026!',
+      url: window.location.href
+    }).catch(() => {});
+  } else {
+    // Fallback - copy to clipboard
+    navigator.clipboard?.writeText(window.location.href);
+  }
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+  new ScrollReveal();
+  createLanterns();
+});
+</script>
+
+</body>
+</html>
