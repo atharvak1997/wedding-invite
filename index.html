@@ -66,12 +66,12 @@
       z-index: 2;
     }
 
-    /* Lanterns */
+    /* Lanterns - Global container */
     .lantern-container {
-      position: absolute;
+      position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
       pointer-events: none;
-      z-index: 3;
+      z-index: 100;
       overflow: hidden;
     }
 
@@ -355,12 +355,14 @@
 </head>
 <body>
 
+<!-- Global Lantern Container -->
+<div class="lantern-container" id="lanterns"></div>
+
 <!-- Section 1: Hero -->
 <section class="section" id="section1">
   <div class="bg-fallback-1" style="position:absolute;inset:0;z-index:0;"></div>
   <img class="section-bg" src="https://i.imgur.com/aEOTfTO.jpeg" alt="" loading="eager">
   <div class="overlay"></div>
-  <div class="lantern-container" id="lanterns1"></div>
   <div class="content">
     <h1 class="title">Aaditi</h1>
     <p class="weds">WEDS</p>
@@ -374,7 +376,6 @@
   <div class="bg-fallback-2" style="position:absolute;inset:0;z-index:0;"></div>
   <img class="section-bg" src="https://i.imgur.com/99WOJIn.jpeg" alt="" loading="lazy">
   <div class="overlay"></div>
-  <div class="lantern-container" id="lanterns2"></div>
   <div class="content">
     <h2 class="section-title">INVITATION</h2>
     <p class="sanskrit">ॐ श्री गणेशाय नमः</p>
@@ -391,7 +392,6 @@
   <div class="bg-fallback-3" style="position:absolute;inset:0;z-index:0;"></div>
   <img class="section-bg" src="https://i.imgur.com/j4a7B6q.jpeg" alt="" loading="lazy">
   <div class="overlay"></div>
-  <div class="lantern-container" id="lanterns3"></div>
   <div class="content">
     <h2 class="section-title">CELEBRATIONS</h2>
     <div class="events-grid">
@@ -434,7 +434,6 @@
   <div class="bg-fallback-4" style="position:absolute;inset:0;z-index:0;"></div>
   <img class="section-bg" src="https://i.imgur.com/FcQIQ5f.jpeg" alt="" loading="lazy">
   <div class="overlay"></div>
-  <div class="lantern-container" id="lanterns4"></div>
   <div class="content">
     <h2 class="section-title">VENUE</h2>
     <h3 class="venue-name">Avismara</h3>
@@ -522,35 +521,33 @@ window.addEventListener('scroll', () => {
   });
 }, { passive: true });
 
-// Create floating lanterns
+// Create floating lanterns - single global container
 function createLanterns() {
-  const isMobile = window.innerWidth < 768;
-  const count = isMobile ? 4 : 6;
+  const container = document.getElementById('lanterns');
+  if (!container) return;
   
-  for (let i = 1; i <= 4; i++) {
-    const container = document.getElementById(`lanterns${i}`);
-    if (!container) continue;
+  const isMobile = window.innerWidth < 768;
+  const count = isMobile ? 12 : 18;
+  
+  for (let j = 0; j < count; j++) {
+    const lantern = document.createElement('div');
+    lantern.className = 'lantern';
     
-    for (let j = 0; j < count; j++) {
-      const lantern = document.createElement('div');
-      lantern.className = 'lantern';
-      
-      const size = 22.5 + Math.random() * 25;
-      const duration = 18 + Math.random() * 12;
-      const swayDuration = 3 + Math.random() * 3;
-      
-      lantern.style.cssText = `
-        width: ${size}px;
-        height: ${size * 1.4}px;
-        left: ${Math.random() * 90 + 5}%;
-        animation-duration: ${duration}s, ${swayDuration}s;
-        animation-delay: ${Math.random() * duration}s, ${Math.random() * swayDuration}s;
-        filter: drop-shadow(0 0 ${10 + size/4}px rgba(255,180,80,${0.4 + size/80}));
-        opacity: ${0.5 + (size/60)};
-      `;
-      
-      container.appendChild(lantern);
-    }
+    const size = 22.5 + Math.random() * 25;
+    const duration = 18 + Math.random() * 12;
+    const swayDuration = 3 + Math.random() * 3;
+    
+    lantern.style.cssText = `
+      width: ${size}px;
+      height: ${size * 1.4}px;
+      left: ${Math.random() * 90 + 5}%;
+      animation-duration: ${duration}s, ${swayDuration}s;
+      animation-delay: ${Math.random() * duration}s, ${Math.random() * swayDuration}s;
+      filter: drop-shadow(0 0 ${10 + size/4}px rgba(255,180,80,${0.4 + size/80}));
+      opacity: ${0.5 + (size/60)};
+    `;
+    
+    container.appendChild(lantern);
   }
 }
 
