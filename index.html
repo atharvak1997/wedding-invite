@@ -347,6 +347,60 @@
       }
     }
 
+    /* Language Toggle */
+    .lang-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      background: rgba(20,10,30,0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,215,0,0.25);
+      border-radius: 30px;
+      padding: 4px;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .lang-pill {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 44px;
+      height: calc(100% - 8px);
+      background: linear-gradient(135deg, rgba(255,215,0,0.25) 0%, rgba(255,179,71,0.2) 100%);
+      border: 1px solid rgba(255,215,0,0.4);
+      border-radius: 25px;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 0;
+    }
+
+    .lang-toggle.marathi .lang-pill {
+      transform: translateX(44px);
+    }
+
+    .lang-option {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.5);
+      width: 44px;
+      text-align: center;
+      padding: 8px 0;
+      border-radius: 25px;
+      transition: color 0.3s ease;
+      position: relative;
+      z-index: 1;
+      user-select: none;
+    }
+
+    .lang-option.active {
+      color: #ffd700;
+    }
+
     /* Fallback backgrounds */
     .bg-fallback-1 { background: linear-gradient(180deg, #6b3fa0 0%, #9b4dca 15%, #d4588c 30%, #ff8c69 50%, #ffc857 70%); }
     .bg-fallback-2 { background: linear-gradient(135deg, #4a1942 0%, #6b2d5c 20%, #8b3a62 35%, #d4588c 50%, #ff7b54 70%); }
@@ -359,16 +413,23 @@
 <!-- Global Lantern Container -->
 <div class="lantern-container" id="lanterns"></div>
 
+<!-- Language Toggle -->
+<div class="lang-toggle" id="langToggle">
+  <div class="lang-pill"></div>
+  <span id="langEn" class="lang-option active" onclick="setLanguage('en')">EN</span>
+  <span id="langMr" class="lang-option" onclick="setLanguage('mr')">अ</span>
+</div>
+
 <!-- Section 1: Hero -->
 <section class="section" id="section1">
   <div class="bg-fallback-1" style="position:absolute;inset:0;z-index:0;"></div>
   <img class="section-bg" src="https://i.imgur.com/N8Dxwq2.jpeg" alt="" loading="eager">
   <div class="overlay"></div>
   <div class="content">
-    <h1 class="title">Aaditi</h1>
-    <p class="weds">WEDS</p>
-    <h1 class="title">Atharva</h1>
-    <p class="date">25 • FEBRUARY • 2026</p>
+    <h1 class="title" data-en="Aaditi" data-mr="आदिती">Aaditi</h1>
+    <p class="weds" data-en="WEDS" data-mr="आणि">WEDS</p>
+    <h1 class="title" data-en="Atharva" data-mr="अथर्व">Atharva</h1>
+    <p class="date" data-en="25 • FEBRUARY • 2026" data-mr="२५ • फेब्रुवारी • २०२६">25 • FEBRUARY • 2026</p>
   </div>
 </section>
 
@@ -378,9 +439,9 @@
   <img class="section-bg" src="https://i.imgur.com/vAfwJBv.jpeg" alt="" loading="lazy">
   <div class="overlay"></div>
   <div class="content">
-    <h2 class="section-title">INVITATION</h2>
+    <h2 class="section-title" data-en="INVITATION" data-mr="निमंत्रण">INVITATION</h2>
     <p class="sanskrit">ॐ श्री गणेशाय नमः</p>
-    <p class="invite-text">
+    <p class="invite-text" data-en="With the blessings of our parents and elders,<br>we invite you to celebrate the beginning<br>of our forever together." data-mr="आमच्या आई-वडील आणि वडीलधाऱ्यांच्या<br>आशीर्वादाने, आम्ही तुम्हाला आमच्या<br>नवीन सुरुवातीचा आनंद साजरा करण्यासाठी आमंत्रित करतो.">
       With the blessings of our parents and elders,<br>
       we invite you to celebrate the beginning<br>
       of our forever together.
@@ -394,36 +455,36 @@
   <img class="section-bg" src="https://i.imgur.com/4JgwJQ1.jpeg" alt="" loading="lazy">
   <div class="overlay"></div>
   <div class="content">
-    <h2 class="section-title">CELEBRATIONS</h2>
+    <h2 class="section-title" data-en="CELEBRATIONS" data-mr="समारंभ">CELEBRATIONS</h2>
     <div class="events-grid">
       <div class="event-card">
         <div class="event-info">
-          <h3 class="event-name">Haldi Ceremony</h3>
-          <p class="event-details">Avismara, Pune • 11:00 AM</p>
+          <h3 class="event-name" data-en="Haldi Ceremony" data-mr="हळदी समारंभ">Haldi Ceremony</h3>
+          <p class="event-details" data-en="Avismara, Pune • 11:00 AM" data-mr="अविस्मरा, पुणे • सकाळी ११:००">Avismara, Pune • 11:00 AM</p>
         </div>
         <div class="event-date">
-          <div class="event-day">22</div>
-          <div class="event-month">FEB 2026</div>
+          <div class="event-day" data-en="22" data-mr="२२">22</div>
+          <div class="event-month" data-en="FEB 2026" data-mr="फेब्रु २०२६">FEB 2026</div>
         </div>
       </div>
       <div class="event-card">
         <div class="event-info">
-          <h3 class="event-name">Sangeet Night</h3>
-          <p class="event-details">Avismara, Pune • 7:00 PM</p>
+          <h3 class="event-name" data-en="Sangeet Night" data-mr="संगीत संध्या">Sangeet Night</h3>
+          <p class="event-details" data-en="Avismara, Pune • 7:00 PM" data-mr="अविस्मरा, पुणे • संध्याकाळी ७:००">Avismara, Pune • 7:00 PM</p>
         </div>
         <div class="event-date">
-          <div class="event-day">24</div>
-          <div class="event-month">FEB 2026</div>
+          <div class="event-day" data-en="24" data-mr="२४">24</div>
+          <div class="event-month" data-en="FEB 2026" data-mr="फेब्रु २०२६">FEB 2026</div>
         </div>
       </div>
       <div class="event-card">
         <div class="event-info">
-          <h3 class="event-name">Wedding Ceremony</h3>
-          <p class="event-details">Avismara, Pune • Muhurat</p>
+          <h3 class="event-name" data-en="Wedding Ceremony" data-mr="विवाह समारंभ">Wedding Ceremony</h3>
+          <p class="event-details" data-en="Avismara, Pune • Muhurat" data-mr="अविस्मरा, पुणे • मुहूर्त">Avismara, Pune • Muhurat</p>
         </div>
         <div class="event-date">
-          <div class="event-day">25</div>
-          <div class="event-month">FEB 2026</div>
+          <div class="event-day" data-en="25" data-mr="२५">25</div>
+          <div class="event-month" data-en="FEB 2026" data-mr="फेब्रु २०२६">FEB 2026</div>
         </div>
       </div>
     </div>
@@ -436,20 +497,20 @@
   <img class="section-bg" src="https://i.imgur.com/04IewS7.jpeg" alt="" loading="lazy">
   <div class="overlay"></div>
   <div class="content">
-    <h2 class="section-title">VENUE</h2>
-    <h3 class="venue-name">Avismara</h3>
-    <p class="venue-address">
+    <h2 class="section-title" data-en="VENUE" data-mr="स्थळ">VENUE</h2>
+    <h3 class="venue-name" data-en="Avismara" data-mr="अविस्मरा">Avismara</h3>
+    <p class="venue-address" data-en="S.No. 16/2 Near Rahul Park, Atul Nagar,<br>Opposite McDonald's, near Chitale Bandhu,<br>Warje, Pune, Maharashtra 411058, India" data-mr="स.नं. १६/२ राहुल पार्क जवळ, अतुल नगर,<br>मॅकडोनाल्ड्सच्या समोर, चितळे बंधू जवळ,<br>वारजे, पुणे, महाराष्ट्र ४११०५८, भारत">
       S.No. 16/2 Near Rahul Park, Atul Nagar,<br>
       Opposite McDonald's, near Chitale Bandhu,<br>
       Warje, Pune, Maharashtra 411058, India
     </p>
-    <button class="btn" onclick="window.open('https://maps.google.com/?q=Avismara+Warje+Pune+411058','_blank')">GET DIRECTIONS</button>
+    <button class="btn" data-en="GET DIRECTIONS" data-mr="दिशा मिळवा" onclick="window.open('https://maps.google.com/?q=Avismara+Warje+Pune+411058','_blank')">GET DIRECTIONS</button>
   </div>
 </section>
 
 <footer>
-  <p class="footer-names">Aaditi & Atharva</p>
-  <p class="footer-date">25 FEBRUARY 2026</p>
+  <p class="footer-names" data-en="Aaditi & Atharva" data-mr="आदिती & अथर्व">Aaditi & Atharva</p>
+  <p class="footer-date" data-en="25 FEBRUARY 2026" data-mr="२५ फेब्रुवारी २०२६">25 FEBRUARY 2026</p>
   <p class="hashtag">#AaditiWedsAtharva</p>
 </footer>
 
@@ -551,10 +612,52 @@ function createLanterns() {
   }
 }
 
+// Language Toggle
+let currentLang = 'en';
+
+function setLanguage(lang) {
+  if (currentLang === lang) return;
+  currentLang = lang;
+  
+  const toggle = document.getElementById('langToggle');
+  const langEn = document.getElementById('langEn');
+  const langMr = document.getElementById('langMr');
+  
+  if (currentLang === 'mr') {
+    toggle.classList.add('marathi');
+    langEn.classList.remove('active');
+    langMr.classList.add('active');
+  } else {
+    toggle.classList.remove('marathi');
+    langEn.classList.add('active');
+    langMr.classList.remove('active');
+  }
+  
+  // Update all text elements with data attributes
+  document.querySelectorAll('[data-en]').forEach(el => {
+    const text = el.getAttribute(`data-${currentLang}`);
+    if (text) {
+      el.innerHTML = text;
+    }
+  });
+  
+  // Save preference
+  localStorage.setItem('wedding-lang', currentLang);
+}
+
+// Load saved language preference
+function loadLanguagePreference() {
+  const savedLang = localStorage.getItem('wedding-lang');
+  if (savedLang === 'mr') {
+    setLanguage('mr');
+  }
+}
+
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
   new ScrollReveal();
   createLanterns();
+  loadLanguagePreference();
 });
 </script>
 
