@@ -401,6 +401,233 @@
       color: #ffd700;
     }
 
+    /* Countdown Timer */
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .countdown-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 60px;
+    }
+
+    .countdown-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.8rem, 6vw, 2.5rem);
+      font-weight: 600;
+      color: #fff;
+      background: rgba(255,215,0,0.1);
+      border: 1px solid rgba(255,215,0,0.3);
+      border-radius: 10px;
+      padding: 10px 14px;
+      min-width: 55px;
+      text-align: center;
+      text-shadow: 0 0 20px rgba(255,215,0,0.3);
+    }
+
+    .countdown-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(0.7rem, 2.5vw, 0.85rem);
+      color: rgba(255,255,255,0.7);
+      margin-top: 6px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .countdown-separator {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.5rem, 5vw, 2rem);
+      color: #ffd700;
+      align-self: flex-start;
+      margin-top: 12px;
+      opacity: 0.7;
+    }
+
+    /* RSVP Section */
+    .rsvp-section {
+      background: linear-gradient(180deg, #0a0510 0%, #1a0a2a 50%, #0a0510 100%);
+    }
+
+    .rsvp-form {
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.8);
+      letter-spacing: 0.05em;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,215,0,0.25);
+      border-radius: 10px;
+      color: #fff;
+      outline: none;
+      transition: border-color 0.3s ease, background 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: rgba(255,215,0,0.6);
+      background: rgba(255,255,255,0.12);
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(255,255,255,0.4);
+    }
+
+    .form-group select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23ffd700' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+    }
+
+    .form-group select option {
+      background: #1a0a2a;
+      color: #fff;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 20px;
+      margin-top: 4px;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .radio-option input[type="radio"] {
+      display: none;
+    }
+
+    .radio-custom {
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255,215,0,0.5);
+      border-radius: 50%;
+      position: relative;
+      transition: border-color 0.3s ease;
+    }
+
+    .radio-option input[type="radio"]:checked + .radio-custom {
+      border-color: #ffd700;
+    }
+
+    .radio-option input[type="radio"]:checked + .radio-custom::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 10px;
+      height: 10px;
+      background: #ffd700;
+      border-radius: 50%;
+    }
+
+    .radio-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .submit-btn {
+      margin-top: 10px;
+      padding: 14px 30px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+      color: #1a0a1a;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(255,215,0,0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .submit-btn:active {
+      transform: scale(0.96);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .form-message {
+      text-align: center;
+      padding: 15px;
+      border-radius: 10px;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      display: none;
+    }
+
+    .form-message.success {
+      display: block;
+      background: rgba(50,205,50,0.15);
+      border: 1px solid rgba(50,205,50,0.4);
+      color: #90EE90;
+    }
+
+    .form-message.error {
+      display: block;
+      background: rgba(255,100,100,0.15);
+      border: 1px solid rgba(255,100,100,0.4);
+      color: #ff9999;
+    }
+
+    @media (hover: hover) {
+      .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 25px rgba(255,215,0,0.4);
+      }
+    }
+
     /* Fallback backgrounds */
     .bg-fallback-1 { background: linear-gradient(180deg, #6b3fa0 0%, #9b4dca 15%, #d4588c 30%, #ff8c69 50%, #ffc857 70%); }
     .bg-fallback-2 { background: linear-gradient(135deg, #4a1942 0%, #6b2d5c 20%, #8b3a62 35%, #d4588c 50%, #ff7b54 70%); }
@@ -508,6 +735,85 @@
   </div>
 </section>
 
+<!-- Section 5: RSVP -->
+<section class="section rsvp-section" id="section5">
+  <div class="content">
+    <h2 class="section-title" data-en="RSVP" data-mr="प्रतिसाद">RSVP</h2>
+    <p class="invite-text" style="margin-bottom: 25px;" data-en="We would be honored by your presence" data-mr="आपल्या उपस्थितीने आम्हाला सन्मान वाटेल">We would be honored by your presence</p>
+    
+    <form class="rsvp-form" id="rsvpForm" onsubmit="submitRSVP(event)">
+      <div class="form-group">
+        <label data-en="Your Name" data-mr="तुमचे नाव">Your Name</label>
+        <input type="text" id="rsvpName" required data-en-placeholder="Enter your full name" data-mr-placeholder="तुमचे पूर्ण नाव टाका" placeholder="Enter your full name">
+      </div>
+      
+      <div class="form-group">
+        <label data-en="Phone Number" data-mr="फोन नंबर">Phone Number</label>
+        <input type="tel" id="rsvpPhone" required data-en-placeholder="Enter your phone number" data-mr-placeholder="तुमचा फोन नंबर टाका" placeholder="Enter your phone number">
+      </div>
+      
+      <div class="form-group">
+        <label data-en="Will you be attending?" data-mr="तुम्ही येणार का?">Will you be attending?</label>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="attending" value="yes" required>
+            <span class="radio-custom"></span>
+            <span class="radio-label" data-en="Joyfully Accept" data-mr="आनंदाने येतो">Joyfully Accept</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="attending" value="no">
+            <span class="radio-custom"></span>
+            <span class="radio-label" data-en="Regretfully Decline" data-mr="येणे शक्य नाही">Regretfully Decline</span>
+          </label>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label data-en="Number of Guests" data-mr="पाहुण्यांची संख्या">Number of Guests</label>
+        <select id="rsvpGuests" required>
+          <option value="" data-en="Select number of guests" data-mr="पाहुण्यांची संख्या निवडा">Select number of guests</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5+</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label data-en="Message (Optional)" data-mr="संदेश (ऐच्छिक)">Message (Optional)</label>
+        <textarea id="rsvpMessage" data-en-placeholder="Share your wishes..." data-mr-placeholder="तुमच्या शुभेच्छा लिहा..." placeholder="Share your wishes..."></textarea>
+      </div>
+      
+      <button type="submit" class="submit-btn" id="submitBtn" data-en="Send RSVP" data-mr="प्रतिसाद पाठवा">Send RSVP</button>
+      
+      <div class="form-message" id="formMessage"></div>
+    </form>
+    
+    <div class="countdown" id="countdown" style="margin-top: 40px;">
+      <div class="countdown-item">
+        <span class="countdown-value" id="countDays">00</span>
+        <span class="countdown-label" data-en="Days" data-mr="दिवस">Days</span>
+      </div>
+      <span class="countdown-separator">:</span>
+      <div class="countdown-item">
+        <span class="countdown-value" id="countHours">00</span>
+        <span class="countdown-label" data-en="Hours" data-mr="तास">Hours</span>
+      </div>
+      <span class="countdown-separator">:</span>
+      <div class="countdown-item">
+        <span class="countdown-value" id="countMinutes">00</span>
+        <span class="countdown-label" data-en="Mins" data-mr="मिनिटे">Mins</span>
+      </div>
+      <span class="countdown-separator">:</span>
+      <div class="countdown-item">
+        <span class="countdown-value" id="countSeconds">00</span>
+        <span class="countdown-label" data-en="Secs" data-mr="सेकंद">Secs</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <p class="footer-names" data-en="Aaditi & Atharva" data-mr="आदिती & अथर्व">Aaditi & Atharva</p>
   <p class="footer-date" data-en="25 FEBRUARY 2026" data-mr="२५ फेब्रुवारी २०२६">25 FEBRUARY 2026</p>
@@ -612,6 +918,109 @@ function createLanterns() {
   }
 }
 
+// =============================================
+// COUNTDOWN TIMER - Wedding: 25 Feb 2026, 10:39 AM IST
+// =============================================
+const weddingDate = new Date('2026-02-25T10:39:00+05:30').getTime();
+
+function updateCountdown() {
+  const now = new Date().getTime();
+  const distance = weddingDate - now;
+  
+  if (distance > 0) {
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+    document.getElementById('countDays').textContent = String(days).padStart(2, '0');
+    document.getElementById('countHours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('countMinutes').textContent = String(minutes).padStart(2, '0');
+    document.getElementById('countSeconds').textContent = String(seconds).padStart(2, '0');
+  } else {
+    // Wedding day has arrived!
+    document.getElementById('countdown').innerHTML = `
+      <div class="countdown-item" style="min-width: auto;">
+        <span class="countdown-value" style="font-size: 1.5rem; padding: 15px 25px;">
+          ${currentLang === 'mr' ? '🎊 शुभ विवाह! 🎊' : '🎊 Just Married! 🎊'}
+        </span>
+      </div>
+    `;
+  }
+}
+
+// Update every second
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// =============================================
+// SUPABASE CONFIGURATION - REPLACE THESE VALUES
+// =============================================
+const SUPABASE_URL = 'YOUR_SUPABASE_URL'; // e.g., https://xxxxx.supabase.co
+const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY'; // Your anon/public key
+
+// RSVP Form Submission
+async function submitRSVP(event) {
+  event.preventDefault();
+  
+  const submitBtn = document.getElementById('submitBtn');
+  const formMessage = document.getElementById('formMessage');
+  
+  // Get form values
+  const name = document.getElementById('rsvpName').value.trim();
+  const phone = document.getElementById('rsvpPhone').value.trim();
+  const attending = document.querySelector('input[name="attending"]:checked')?.value || '';
+  const guests = document.getElementById('rsvpGuests').value;
+  const message = document.getElementById('rsvpMessage').value.trim();
+  
+  // Disable button
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = currentLang === 'mr' ? 'पाठवत आहे...' : 'Sending...';
+  
+  try {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/rsvps`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({
+        name,
+        phone,
+        attending,
+        guests: parseInt(guests) || 0,
+        message
+      })
+    });
+    
+    if (response.ok) {
+      formMessage.className = 'form-message success';
+      formMessage.innerHTML = currentLang === 'mr' 
+        ? '🎉 धन्यवाद! तुमचा प्रतिसाद नोंदवला गेला आहे.' 
+        : '🎉 Thank you! Your RSVP has been received.';
+      document.getElementById('rsvpForm').reset();
+    } else {
+      throw new Error('Failed to submit');
+    }
+  } catch (error) {
+    formMessage.className = 'form-message error';
+    formMessage.innerHTML = currentLang === 'mr'
+      ? 'काहीतरी चूक झाली. कृपया पुन्हा प्रयत्न करा.'
+      : 'Something went wrong. Please try again.';
+  }
+  
+  // Reset button
+  submitBtn.disabled = false;
+  submitBtn.innerHTML = currentLang === 'mr' ? 'प्रतिसाद पाठवा' : 'Send RSVP';
+  
+  // Hide message after 5 seconds
+  setTimeout(() => {
+    formMessage.className = 'form-message';
+  }, 5000);
+}
+
 // Language Toggle
 let currentLang = 'en';
 
@@ -638,6 +1047,14 @@ function setLanguage(lang) {
     const text = el.getAttribute(`data-${currentLang}`);
     if (text) {
       el.innerHTML = text;
+    }
+  });
+  
+  // Update placeholders
+  document.querySelectorAll('[data-en-placeholder]').forEach(el => {
+    const placeholder = el.getAttribute(`data-${currentLang}-placeholder`);
+    if (placeholder) {
+      el.placeholder = placeholder;
     }
   });
   
