@@ -589,10 +589,10 @@
 
 <!-- VIDEO INTRO -->
 <div class="video-intro" id="videoIntro">
-  <video class="intro-video" id="introVideo" autoplay muted playsinline>
+  <video class="intro-video" id="introVideo" muted playsinline>
     <source src="envelope-video.mp4" type="video/mp4">
   </video>
-  <div class="skip-hint">TAP TO SKIP</div>
+  <div class="skip-hint">TAP TO OPEN</div>
 </div>
 
 <!-- MAIN CONTENT -->
@@ -770,6 +770,16 @@ const lanterns = document.getElementById('lanterns');
 const langToggle = document.getElementById('langToggle');
 let introComplete = false;
 let fadeStarted = false;
+let videoStarted = false;
+
+// Click to start video
+videoIntro.addEventListener('click', () => {
+  if (!videoStarted) {
+    videoStarted = true;
+    introVideo.play();
+    document.querySelector('.skip-hint').style.opacity = '0';
+  }
+});
 
 // Start showing website at 50% of video
 introVideo.addEventListener('timeupdate', () => {
@@ -809,7 +819,6 @@ function showMainContent() {
 }
 
 introVideo.addEventListener('ended', showMainContent);
-videoIntro.addEventListener('click', showMainContent);
 
 // Fallback if video fails
 introVideo.addEventListener('error', showMainContent);
