@@ -589,7 +589,7 @@
 
 <!-- VIDEO INTRO -->
 <div class="video-intro" id="videoIntro">
-  <video class="intro-video" id="introVideo" muted playsinline>
+  <video class="intro-video" id="introVideo" muted playsinline preload="auto" poster="">
     <source src="envelope-video.mp4" type="video/mp4">
   </video>
   <div class="skip-hint">TAP TO OPEN</div>
@@ -780,6 +780,10 @@ videoIntro.addEventListener('click', () => {
     document.querySelector('.skip-hint').style.opacity = '0';
   }
 });
+
+// Load first frame immediately
+introVideo.load();
+introVideo.currentTime = 0.001;
 
 // Start showing website at 50% of video
 introVideo.addEventListener('timeupdate', () => {
