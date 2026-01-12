@@ -778,6 +778,7 @@ let videoStarted = false;
 videoIntro.addEventListener('click', () => {
   if (!videoStarted) {
     videoStarted = true;
+    introVideo.playbackRate = 1.5;
     introVideo.play();
     document.querySelector('.skip-hint').style.opacity = '0';
   }
