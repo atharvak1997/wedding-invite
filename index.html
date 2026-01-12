@@ -122,9 +122,11 @@
       object-fit: cover;
       object-position: center 55%;
       z-index: 1;
-      filter: blur(1.5px) brightness(0.7);
-      transform: scale(1.1);
-      transition: transform 0.8s ease-out;
+      filter: brightness(0.7);
+      transform: translateZ(0);
+      will-change: transform;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
     }
     #section1 .section-bg { object-position: center 60%; }
     #section2 .section-bg { object-position: center 50%; }
@@ -869,18 +871,8 @@ class ScrollReveal {
   }
 }
 
-// PARALLAX
-const bgImages = document.querySelectorAll('.section-bg');
-window.addEventListener('scroll', () => {
-  const scrollY = window.scrollY;
-  bgImages.forEach(bg => {
-    const section = bg.parentElement;
-    const rect = section.getBoundingClientRect();
-    if (rect.top < window.innerHeight && rect.bottom > 0) {
-      bg.style.transform = `scale(1.1) translateY(${(scrollY - section.offsetTop) * 0.15}px)`;
-    }
-  });
-}, { passive: true });
+// PARALLAX - DISABLED FOR PERFORMANCE
+// Background images are now static for smoother scrolling
 
 // LANTERNS
 function createLanterns() {
