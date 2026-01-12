@@ -33,10 +33,11 @@
       justify-content: center;
       z-index: 10000;
       opacity: 1;
-      transition: opacity 1.5s ease-out;
+      transition: opacity 1.5s ease-out, background 1.5s ease-out;
     }
     .video-intro.fading {
       opacity: 0;
+      background: transparent;
     }
     .video-intro.hidden {
       visibility: hidden;
@@ -52,6 +53,11 @@
       width: auto;
       height: auto;
       object-fit: cover;
+      opacity: 1;
+      transition: opacity 1.5s ease-out;
+    }
+    .video-intro.fading .intro-video {
+      opacity: 0;
     }
     @media (max-aspect-ratio: 464/688) {
       .intro-video {
@@ -768,19 +774,19 @@ function showMainContent() {
   if (introComplete) return;
   introComplete = true;
   
-  // Start fade out
+  // Show main content immediately (behind video)
+  document.body.classList.remove('no-scroll');
+  mainContent.classList.add('visible');
+  lanterns.classList.add('visible');
+  
+  // Start fade out of video
   videoIntro.classList.add('fading');
   
-  // After fade completes, hide and show main content
+  // After fade completes, fully hide video and show toggle
   setTimeout(() => {
     videoIntro.classList.add('hidden');
-    document.body.classList.remove('no-scroll');
-    mainContent.classList.add('visible');
-    setTimeout(() => {
-      lanterns.classList.add('visible');
-      langToggle.classList.add('visible');
-      new ScrollReveal();
-    }, 300);
+    langToggle.classList.add('visible');
+    new ScrollReveal();
   }, 1500);
 }
 
