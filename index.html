@@ -773,10 +773,18 @@ let fadeStarted = false;
 
 // Start showing website at 50% of video
 introVideo.addEventListener('timeupdate', () => {
-  if (!fadeStarted && introVideo.duration && introVideo.currentTime >= introVideo.duration * 0.1) {
+  const progress = introVideo.currentTime / introVideo.duration;
+  
+  // Start showing website at 50%
+  if (!fadeStarted && progress >= 0.5) {
     fadeStarted = true;
     mainContent.classList.add('visible');
     lanterns.classList.add('visible');
+  }
+  
+  // Start fading out video at 80%
+  if (!introComplete && progress >= 0.8) {
+    showMainContent();
   }
 });
 
