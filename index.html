@@ -339,8 +339,9 @@
     .btn:active { transform: scale(0.96); box-shadow: 0 2px 10px rgba(255,215,0,0.4); }
 
     footer {
-      background: linear-gradient(180deg, transparent, #f5f0e8);
-      padding: 40px 20px;
+      background: #f5f0e8;
+      padding: 20px 20px 60px;
+      margin-top: 0;
       text-align: center;
       position: relative;
       z-index: 10;
@@ -468,7 +469,12 @@
       opacity: 0.7;
     }
 
-    .rsvp-section { background: linear-gradient(180deg, #0a0510 0%, #f5f0e8 15%, #f5f0e8 85%, #0a0510 100%); }
+    .rsvp-section { 
+      background: linear-gradient(180deg, #0a0510 0%, #f5f0e8 15%, #f5f0e8 100%);
+      min-height: auto !important;
+      padding-bottom: 80px;
+      margin-bottom: 0;
+    }
     .rsvp-section .section-title {
       color: #722F37;
       text-shadow: none;
@@ -476,6 +482,11 @@
     .rsvp-section .invite-text {
       color: #4a3c31;
       text-shadow: none;
+    }
+    .light-section-wrapper {
+      background: #f5f0e8;
+      overflow: hidden;
+      margin-top: -1px;
     }
     .rsvp-form {
       width: 100%;
@@ -659,6 +670,7 @@
     </div>
   </section>
 
+  <div class="light-section-wrapper">
   <section class="section rsvp-section" id="section4">
     <div class="content">
       <h2 class="section-title" data-en="RSVP" data-mr="प्रतिसाद">RSVP</h2>
@@ -726,14 +738,15 @@
           <span class="countdown-label" data-en="Secs" data-mr="सेकंद">Secs</span>
         </div>
       </div>
+      
+      <div class="footer-content" style="margin-top: 60px;">
+        <p class="footer-names" data-en="Aaditi & Atharva" data-mr="आदिती & अथर्व">Aaditi & Atharva</p>
+        <p class="footer-date" data-en="25 FEBRUARY 2026" data-mr="२५ फेब्रुवारी २०२६">25 FEBRUARY 2026</p>
+        <p class="hashtag">#AaditiWedsAtharva</p>
+      </div>
     </div>
   </section>
-
-  <footer>
-    <p class="footer-names" data-en="Aaditi & Atharva" data-mr="आदिती & अथर्व">Aaditi & Atharva</p>
-    <p class="footer-date" data-en="25 FEBRUARY 2026" data-mr="२५ फेब्रुवारी २०२६">25 FEBRUARY 2026</p>
-    <p class="hashtag">#AaditiWedsAtharva</p>
-  </footer>
+  </div>
 </div>
 
 <script>
